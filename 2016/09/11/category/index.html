@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://ocnnxadky.bkt.clouddn.com/16-9-11/77312641.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Tsui YuenHong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Category 的一些事｜Tsui YuenHong&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.xurunkang.cn/2016/09/11/category/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('null')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tsui YuenHong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-9-11/335924.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/335924.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Category 的一些事</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2016-09-11
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#category"
+                           title="category">category</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Category 的一些事
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="Category-简介"><a href="#Category-简介" class="headerlink" title="Category - 简介"></a>Category - 简介</h2><p>Category（类别）是 <code>Objective-C 2.0</code> 添加的新特性（十年前的新特性 😆）。其作用可以扩展已有的类， 而不必通过子类化已有类，甚至也不必知道已有类的源码，还有就是分散代码，使已有类的体积大大减少，也利于分工合作。</p>
+<p>在<a href="http://opensource.apple.com/tarballs/objc4/" target="_blank" rel="external">苹果开源项目</a>中，我们可以下载相关的源码来查看 <code>category</code> 的资料。</p>
+<p>在 AFNetworking 和 SDWebImage 中也大量用到 <code>category</code> 来扩展已有类和分散代码。</p>
+<p>关于 <code>category</code> 的定义可以在 <code>objc-runtime-new.h</code> 中找到。由其定义可以看出 <code>category</code> 可以正常实现功能有：添加实例方法、类方法、协议、实例属性。( 在后面的实践中，发现类属性也是可以添加的 )</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">struct category_t &#123;</div><div class="line">    const char *name;</div><div class="line">    classref_t cls;</div><div class="line">    struct method_list_t *instanceMethods;</div><div class="line">    struct method_list_t *classMethods;</div><div class="line">    struct protocol_list_t *protocols;</div><div class="line">    struct property_list_t *instanceProperties;</div><div class="line"></div><div class="line">    method_list_t *methodsForMeta(bool isMeta) &#123;</div><div class="line">        if (isMeta) return classMethods;</div><div class="line">        else return instanceMethods;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    property_list_t *propertiesForMeta(bool isMeta) &#123;</div><div class="line">        if (isMeta) return nil; // classProperties;</div><div class="line">        else return instanceProperties;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>随便说一句，本文并不主要注重 <code>category</code> 的实现细节和工作原理。关于细节的方面可以看相关文章 <a href="http://tech.meituan.com/DiveIntoCategory.html" target="_blank" rel="external">深入理解Objective-C：Category</a> 和 <a href="http://www.jianshu.com/p/d66d65314add" target="_blank" rel="external">结合 category 工作原理分析 OC2.0 中的 runtime</a> 。</p>
+<hr>
+<h2 id="Category-能做什么"><a href="#Category-能做什么" class="headerlink" title="Category - 能做什么"></a>Category - 能做什么</h2><p>首先，我们先来创建一个 <code>Person</code> 类以及 <code>Person</code> 类的 category，可以看得出 category 的文件名就是 <code>已有类名+自定义名</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// Person.h</div><div class="line">@interface Person : NSObject</div><div class="line"></div><div class="line">@property (nonatomic, copy) NSString *name;</div><div class="line"></div><div class="line">+ (void)run;</div><div class="line">- (void)talk;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// Person.m</div><div class="line">@implementation Person</div><div class="line"></div><div class="line">// 原实例方法</div><div class="line">- (void)talk&#123;</div><div class="line">    NSLog(@&quot;\n我是原实例方法\n我是%@&quot;,self.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 原类方法</div><div class="line">+ (void)run&#123;</div><div class="line">    NSLog(@&quot;\n我是原类方法\n我是跑得很快的的香港记者&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// Person+OtherSkills.h</div><div class="line">@interface Person (OtherSkills)&#123;</div><div class="line">    //⚠️ instance variables may not be placed in categories</div><div class="line">    //int i;</div><div class="line">    //NSString *str;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 添加实例属性</div><div class="line">@property (nonatomic, copy) NSString *otherName;</div><div class="line">// 添加类属性</div><div class="line">@property (class, nonatomic, copy) NSString *clsStr;</div><div class="line"></div><div class="line">// 重写已有类方法</div><div class="line">+ (void)run;</div><div class="line">- (void)talk;</div><div class="line"></div><div class="line">// 为已有类添加方法</div><div class="line">- (void)logInstProp;</div><div class="line">+ (void)logClsProp;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// Person+OtherSkills.m</div><div class="line">static NSString *_clsStr = nil;</div><div class="line">static NSString *_otherName = nil;</div><div class="line"></div><div class="line">@implementation Person (OtherSkills)</div><div class="line"></div><div class="line">@dynamic otherName;</div><div class="line"></div><div class="line">// 重写类方法</div><div class="line">+ (void)run&#123;</div><div class="line">    // 警告⚠️ Category is implementing a method which will also be implemented by its primary class</div><div class="line">    NSLog(@&quot;\n我是重写方法\n我是跑得很快的的香港记者&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 重写实例方法</div><div class="line">- (void)talk&#123;</div><div class="line">    // 警告⚠️ Category is implementing a method which will also be implemented by its primary class</div><div class="line">    NSLog(@&quot;\n我是重写方法\n我是会谈笑风生的%@&quot;,self.otherName);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 输出实例属性</div><div class="line">- (void)logInstProp&#123;</div><div class="line">    NSLog(@&quot;\n输出实例属性\n我是会谈笑风生的%@&quot;,self.otherName);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 输出类属性</div><div class="line">+ (void)logClsProp&#123;</div><div class="line">    NSLog(@&quot;\n输出类属性\n我是会谈笑风生的%@&quot;,self.clsStr);</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (NSString *)clsStr&#123;</div><div class="line">    return _clsStr;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (void)setClsStr:(NSString *)clsStr&#123;</div><div class="line">    _clsStr = clsStr;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (NSString *)otherName&#123;</div><div class="line">    return _otherName;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)setOtherName:(NSString *)otherName&#123;</div><div class="line">    _otherName = otherName;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建完代码之后，下面我们来看看 <code>category</code> 到底能干什么。</p>
+<p>顺便一提，我是在网上看到很多文章说 <code>category</code> 不能添加属性，这是说法是不对的，如 <code>Person+OtherSkills.h</code> 中就添加了一个 <code>otherName</code> 的属性。正确的说法应该是 <code>category</code> 不能添加实例变量，否则编译器会报错 <code>instance variables may not be placed in categories</code>。正常情况下，因为 category 不能添加实例变量，也会导致属性的 <code>setter &amp; getter</code> 方法不能正常工作。（ 当然，可以利用 <code>Runtime</code> 为 <code>category</code> 动态关联属性，最后会介绍两种使 <code>category</code> 属性正常工作的方法）</p>
+<h4 id="category-可以为已有类添加实例属性。"><a href="#category-可以为已有类添加实例属性。" class="headerlink" title="category 可以为已有类添加实例属性。"></a>category 可以为已有类添加实例属性。</h4><p>如 <code>Person+OtherSkills.h</code> 中就添加了一个 <code>otherName</code> 的属性。可以出来能正常工作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 运行代码</div><div class="line">Person *p1 = [[Person alloc] init];</div><div class="line"></div><div class="line">// 实例属性</div><div class="line">p1.otherName = @&quot;小花&quot;;</div><div class="line">[p1 logInstProp];</div><div class="line"></div><div class="line">p1.otherName = @&quot;小明&quot;;</div><div class="line">[p1 logInstProp];</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 输出结果</div><div class="line">2016-09-11 09:45:09.935 category[37281:1509791]</div><div class="line">输出实例属性</div><div class="line">我是会谈笑风生的小花</div><div class="line">2016-09-11 09:45:09.936 category[37281:1509791]</div><div class="line">输出实例属性</div><div class="line">我是会谈笑风生的小明</div></pre></td></tr></table></figure>
+<h4 id="category-可以为已有类添加类属性。"><a href="#category-可以为已有类添加类属性。" class="headerlink" title="category 可以为已有类添加类属性。"></a>category 可以为已有类添加类属性。</h4><p>虽然，<code>category_t</code> 中是没有定义 <code>clssProperties</code>，但是根据实际操作却显示 category 的确可以为已有类添加类属性并且成功执行。<del>我个人觉得是部分源码没有更新或者隐藏了😁，如果有知道原因的同学可以说一下</del></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 运行代码</div><div class="line">Person.clsStr = @&quot;小东&quot;;</div><div class="line">[Person logClsProp];</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 输出结果</div><div class="line">2016-09-11 09:45:09.936 category[37281:1509791]</div><div class="line">输出类属性</div><div class="line">我是会谈笑风生的小东</div></pre></td></tr></table></figure>
+<h4 id="category-可以为已有类添加实例方法和类方法。"><a href="#category-可以为已有类添加实例方法和类方法。" class="headerlink" title="category 可以为已有类添加实例方法和类方法。"></a>category 可以为已有类添加实例方法和类方法。</h4><p>在上面的两个例子中已经体现了 <code>category</code> 可以为已有类添加实例方法和类方法。这里将讨论加入 <code>category</code> 重写了已有类的方法会怎么样，在创建的代码中我们已经重写了 <code>run</code> 和 <code>talk</code> 方法，那这时我们来调用看看。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 运行代码</div><div class="line">// 调用类方法</div><div class="line">[Person run];</div><div class="line">// 调用实例方法    </div><div class="line">Person *p1 = [[Person alloc] init];</div><div class="line">[p1 talk];</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 输出结果</div><div class="line">2016-09-11 11:22:05.817 category[37733:1562534]</div><div class="line">我是重写方法</div><div class="line">我是跑得很快的的香港记者</div><div class="line">2016-09-11 11:22:05.817 category[37733:1562534]</div><div class="line">我是重写方法</div><div class="line">我是会谈笑风生的(null)</div></pre></td></tr></table></figure>
+<p>可以看得出来，这时候无论是已有类中的类方法和实例方法都可以被 <code>category</code> 替换到其中的重写方法，即使我现在是没有导入 <code>Person+OtherSkills.h</code> 。这就带来一个很严重的问题，如果在 category 中不小心重写了已有类的方法将导致原方法无法正常执行。所以使用 <code>category</code> 添加方法时候请注意是否和已有类重名了，正如 <code>《 Effective Objective-C 2.0 》</code> 中的第 25 条所建议的：</p>
+<blockquote>
+<p>在给第三方类添加 category 时添加方法时记得加上你的专有前缀</p>
+</blockquote>
+<p>然而，因为 category 重写方法是并不是替换掉原方法，而是往已有类中继续添加方法，所以还是有机会去调用到原方法。这里利用 <code>class_copyMethodList</code> 获取 <code>Person</code> 类的全部类方法和实例方法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 获取 Person 的方法列表</div><div class="line">unsigned int personMCount;</div><div class="line">// 获取实例方法</div><div class="line">//Method *personMList = class_copyMethodList([Person class], &amp;personMCount);</div><div class="line">// 获取类方法</div><div class="line">Method *personMList = class_copyMethodList(object_getClass([Person class]), &amp;personMCount);</div><div class="line">NSMutableArray *mArr = [NSMutableArray array];</div><div class="line"></div><div class="line">// 这里是倒序获取，所以 mArr 第一个方法对应的是 Person 类中最后一个方法</div><div class="line">for (int i = personMCount - 1; i &gt;= 0; i--) &#123;</div><div class="line"></div><div class="line">   SEL sel = NULL;</div><div class="line">   IMP imp = NULL;</div><div class="line"></div><div class="line">   Method method = personMList[i];</div><div class="line">   NSString *methodName = [NSString stringWithCString:sel_getName(method_getName(method))</div><div class="line">                                             encoding:NSUTF8StringEncoding];</div><div class="line">   [mArr addObject:methodName];</div><div class="line"></div><div class="line">   if ([@&quot;run&quot; isEqualToString:methodName]) &#123;</div><div class="line">       imp = method_getImplementation(method);</div><div class="line">       sel = method_getName(method);</div><div class="line">       ((void (*)(id, SEL))imp)(p1, sel); // 这里的 sel 有什么用呢 ?!</div><div class="line">       //break;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">free(personMList);</div></pre></td></tr></table></figure>
+<p>其中输出的类方法和实例方法分别如下，显示原方法的确可以被调用。<br>不过我这里有个疑问，使用 imp 时第二个参数 sel 到底有什么用呢?</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">2016-09-11 11:52:44.795 category[37893:1582677]</div><div class="line">我是原类方法</div><div class="line">我是跑得很快的的香港记者</div><div class="line">2016-09-11 11:52:44.796 category[37893:1582677]</div><div class="line">我是重写方法</div><div class="line">我是跑得很快的的香港记者</div><div class="line">2016-09-11 11:52:44.796 category[37893:1582677] (</div><div class="line">    run, // 原方法</div><div class="line">    run, // 重写方法</div><div class="line">    &quot;setClsStr:&quot;,</div><div class="line">    logClsProp,</div><div class="line">    clsStr</div><div class="line">)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">2016-09-11 11:54:14.545 category[37927:1584029]</div><div class="line">我是原实例方法</div><div class="line">我是(null)</div><div class="line">2016-09-11 11:54:14.545 category[37927:1584029]</div><div class="line">我是重写方法</div><div class="line">我是会谈笑风生的(null)</div><div class="line">2016-09-11 11:54:14.545 category[37927:1584029] (</div><div class="line">    &quot;setName:&quot;,</div><div class="line">    name,</div><div class="line">    &quot;.cxx_destruct&quot;,</div><div class="line">    &quot;setOtherName:&quot;,</div><div class="line">    logInstProp,</div><div class="line">    tanxiaofengsheng,</div><div class="line">    otherName,</div><div class="line">    talk, //原方法</div><div class="line">    talk  //重写方法</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="category-可以为已有类添加协议。"><a href="#category-可以为已有类添加协议。" class="headerlink" title="category 可以为已有类添加协议。"></a>category 可以为已有类添加协议。</h4><p>这里先添加一个新的 category，负责处理他谈笑风生的行为，和写个协议让他上电视。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// Person+Delegate.h</div><div class="line">#import &quot;Person.h&quot;</div><div class="line"></div><div class="line">// 添加协议</div><div class="line">@protocol PersonDelegate &lt;NSObject&gt;</div><div class="line"></div><div class="line">- (void)showInTV;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@interface Person (Delegate)</div><div class="line"></div><div class="line">// 添加 delegate</div><div class="line">@property (nonatomic, weak) id&lt;PersonDelegate&gt; delegate;</div><div class="line"></div><div class="line">- (void)tanxiaofengsheng;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// Person+Delegate.m</div><div class="line">#import &quot;Person+Delegate.h&quot;</div><div class="line">#import &lt;objc/runtime.h&gt;</div><div class="line"></div><div class="line">@implementation Person (Delegate)</div><div class="line"></div><div class="line">- (id&lt;PersonDelegate&gt;)delegate&#123;</div><div class="line">    return objc_getAssociatedObject(self, @selector(delegate));</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)setDelegate:(id&lt;PersonDelegate&gt;)delegate&#123;</div><div class="line">    objc_setAssociatedObject(self, @selector(delegate), delegate, OBJC_ASSOCIATION_ASSIGN);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)tanxiaofengsheng&#123;</div><div class="line">    for (int i = 0 ; i &lt; 10; i ++) &#123;</div><div class="line">        NSLog(@&quot;谈笑风生...&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 谈笑风生完就要上电视了</div><div class="line">    if ([self.delegate respondsToSelector:@selector(showInTV)]) &#123;</div><div class="line">        [self.delegate showInTV];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>在相应的代理里面添加 <code>showInTV</code> 的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 运行代码</div><div class="line">Person *p1 = [[Person alloc] init];</div><div class="line">p1.delegate = self;</div><div class="line"></div><div class="line">// 开始谈笑风生了</div><div class="line">[p1 tanxiaofengsheng];</div><div class="line"></div><div class="line">// ShowInTV 方法的实现</div><div class="line">- (void)showInTV&#123;</div><div class="line">    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(100, 100, 150, 150)];</div><div class="line">    imageView.image = [UIImage imageNamed:@&quot;naive.jpg&quot;];</div><div class="line">    [self.view addSubview:imageView];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就利用 <code>category</code> 为已有类添加了协议。</p>
+<p>关于 <code>category</code> 的基本应用就介绍到这里了。下面就来分享一下 <code>category</code> 的实践中的使用。</p>
+<hr>
+<h2 id="Category-实践"><a href="#Category-实践" class="headerlink" title="Category - 实践"></a>Category - 实践</h2><h4 id="UIButton-实现点击事件可以“传参”。"><a href="#UIButton-实现点击事件可以“传参”。" class="headerlink" title="UIButton 实现点击事件可以“传参”。"></a>UIButton 实现点击事件可以“传参”。</h4><p>一般创建<code>UIButton</code>的时候都会使用 <code>addTarget ...</code>这个方法来为<code>button</code>添加点击事件，不过这个方法有个不好的地方就是无法传自己想要的参数。例如下面代码中声明了<code>str</code>，我的意图是点击<code>button</code>就使控制台或者屏幕显示<code>str</code>的内容。如果按照这样来写的我想到的解决办法就是将<code>str</code>设置为属性或者成员变量，不过这样都是比较麻烦而且不直观的（代码分散）。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">NSString *str = @&quot;hi&quot;;</div><div class="line">UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(100, 250, 150, 100)];</div><div class="line">button.backgroundColor = [UIColor redColor];</div><div class="line">[button addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchDown];</div><div class="line">[self.view addSubview:button];</div><div class="line"></div><div class="line">// 点击事件</div><div class="line">- (void)click:(UIButton *)button&#123;</div><div class="line">    ...    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我想到较好的解决办法应该在创建<code>button</code>，就为它设置具体的点击响应事件。实现方法就是为 <code>UIButton</code> 添加 <code>block</code> 属性或者添加可传入 <code>block</code> 的方法。具体代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// UIButton+Category.h</div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">typedef void(^ActionHandlerBlock)(void);</div><div class="line"></div><div class="line">@interface UIButton (Category)</div><div class="line"></div><div class="line">// 点击响应的 block</div><div class="line">@property (nonatomic, copy) ActionHandlerBlock actionHandlerBlock;</div><div class="line"></div><div class="line">// 设置 UIButton 的点击事件</div><div class="line">- (void)kk_addActionHandler: (ActionHandlerBlock )actionHandlerBlock ForControlEvents:(UIControlEvents )controlEvents;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// UIButton+Category.m</div><div class="line">#import &quot;UIButton+Category.h&quot;</div><div class="line">#import &lt;objc/runtime.h&gt;</div><div class="line"></div><div class="line">static const void *kk_actionHandlerBlock = &amp;kk_actionHandlerBlock;</div><div class="line"></div><div class="line">@implementation UIButton (Category)</div><div class="line"></div><div class="line">- (void)kk_addActionHandler:(ActionHandlerBlock)actionHandler ForControlEvents:(UIControlEvents)controlEvents&#123;</div><div class="line"></div><div class="line">    // 关联 actionHandler</div><div class="line">    objc_setAssociatedObject(self, kk_actionHandlerBlock, actionHandler, OBJC_ASSOCIATION_COPY_NONATOMIC);</div><div class="line"></div><div class="line">    // 设置点击事件</div><div class="line">    [self addTarget:self action:@selector(handleAction) forControlEvents:controlEvents];</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 处理点击事件</div><div class="line">- (void)handleAction&#123;</div><div class="line"></div><div class="line">    ActionHandlerBlock actionHandlerBlock = objc_getAssociatedObject(self, kk_actionHandlerBlock);</div><div class="line"></div><div class="line">    if (actionHandlerBlock) &#123;</div><div class="line">        actionHandlerBlock();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (ActionHandlerBlock)actionHandlerBlock&#123;</div><div class="line">    return objc_getAssociatedObject(self, @selector(actionHandlerBlock));</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)setActionHandlerBlock:(ActionHandlerBlock)actionHandlerBlock&#123;</div><div class="line">    objc_setAssociatedObject(self, @selector(actionHandlerBlock), actionHandlerBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>那现在我们来看看调用的结果，例如我现在想要的点击事件是 button 颜色随机变换。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(100, 250, 150, 100)];</div><div class="line">button.backgroundColor = [UIColor redColor];</div><div class="line">[self.view addSubview:button];</div><div class="line"></div><div class="line">// 1. 通过实例方法传入 block 来修改  </div><div class="line">UIButton *button2 = [[UIButton alloc] initWithFrame:CGRectMake(100, 400, 150, 100)];</div><div class="line">button2.backgroundColor = [UIColor redColor];</div><div class="line">[button2 kk_addActionHandler:^&#123;</div><div class="line">   button.backgroundColor = [UIColor colorWithRed:arc4random_uniform(256) / 255.0 green:arc4random_uniform(256) / 255.0 blue:arc4random_uniform(256) / 255.0 alpha:1.0];</div><div class="line">&#125; ForControlEvents:UIControlEventTouchDown];</div><div class="line">[self.view addSubview:button2];</div><div class="line"></div><div class="line">// 2. 通过修改 block 属性来修改</div><div class="line">UIButton *button3 = [[UIButton alloc] initWithFrame:CGRectMake(100, 550, 150, 100)];</div><div class="line">button3.backgroundColor = [UIColor redColor];</div><div class="line">button3.actionHandlerBlock = ^&#123;</div><div class="line">   button.backgroundColor = [UIColor colorWithRed:arc4random_uniform(256) / 255.0 green:arc4random_uniform(256) / 255.0 blue:arc4random_uniform(256) / 255.0 alpha:1.0];</div><div class="line">&#125;;</div><div class="line">[button3 addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];</div><div class="line">[self.view addSubview:button3];</div><div class="line"></div><div class="line"></div><div class="line">// 响应事件</div><div class="line">- (void)click:(UIButton *)button&#123;</div><div class="line">    if (button.actionHandlerBlock) &#123;</div><div class="line">        button.actionHandlerBlock();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-9-11/60068504.jpg" alt="实现效果图"></p>
+<p>显然，方法1和方法2在这个例子中实现的效果是相同的。不过，在不同场合这两个方法适用的范围也不同。</p>
+<ol>
+<li>直接调用实例方法传入 <code>block</code> 会使代码更加简洁和集中，但不适合 <code>block</code> 需要传值的情景。</li>
+<li>相反，设置 <code>block</code> 属性要在 <code>@selector()</code> 中的方法中调用 <code>block</code>，比较麻烦，不过在需要的情况下可以传入合适的参数。</li>
+</ol>
+<p>p.s. 以后会继续补实践部分。</p>
+<p>最后说一下，两种使 <code>category</code> 属性正常工作的方法：</p>
+<ol>
+<li>因为 <code>category</code> 不能创建实例变量，那就直接使用静态变量，如最开始为 <code>ohterName</code> 和<code>clsStr</code> 属性设置 <code>setter &amp; getter</code>的做法。</li>
+<li><p>使用<code>objc_setAssociatedObject</code>，其中 <code>key</code> 的选择有以下几种，个人比较喜欢第四种。</p>
+<ul>
+<li><code>static char *key1;</code> // SDWebImage &amp; AFNetworking 中的做法，比较简单，而且 &amp;key1 肯定唯一。key 取 &amp;key1</li>
+<li><code>static const char * const key2 = &quot;key2&quot;;</code> // 网上看到的做法，指针不可变，指向内容不可变，但是这种情况必须在赋值确保 key2 指向内容的值是唯一。key 取 key2。</li>
+<li><code>static const void *key3 = &amp;key3;</code> // 最取巧的方法，指向自己是为了不创建额外空间，而 const 修饰可以确保无法修改 key3 指向的内容。key 取 key3。</li>
+<li>key 取 <code>@selector(属性名)</code>，最方便，输入有提示，只要你确保属性名添加上合适的前缀就不会出问题。</li>
+</ul>
+</li>
+</ol>
+<p><br></p>
+<div class="text" style=" text-align:center;">感谢您的阅读，如有错误，敬请指出。</div>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Category-简介"><span class="toc-text">Category - 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Category-能做什么"><span class="toc-text">Category - 能做什么</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#category-可以为已有类添加实例属性。"><span class="toc-text">category 可以为已有类添加实例属性。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#category-可以为已有类添加类属性。"><span class="toc-text">category 可以为已有类添加类属性。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#category-可以为已有类添加实例方法和类方法。"><span class="toc-text">category 可以为已有类添加实例方法和类方法。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#category-可以为已有类添加协议。"><span class="toc-text">category 可以为已有类添加协议。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Category-实践"><span class="toc-text">Category - 实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#UIButton-实现点击事件可以“传参”。"><span class="toc-text">UIButton 实现点击事件可以“传参”。</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#category"
+                           title="category">category</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tsui YuenHong 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.xurunkang.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-83299030-1';
+    var _gaDomain = 'xurunkang.cn';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-8-29/48379139.jpg">
+</body>
+
+</html>
