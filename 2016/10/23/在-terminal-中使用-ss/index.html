@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Tags｜Tsui YuenHong&#39;s Blog
+        在 terminal 中使用 ss｜Tsui YuenHong&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.xurunkang.cn/Tags/">
+    <link rel="canonical" href="http://www.xurunkang.cn/2016/10/23/在-terminal-中使用-ss/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -120,139 +120,149 @@
 </script>
 
 <!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-10-23/53776020.jpg">
+
+
 <style>
-    header.intro-header{
-        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/335924.jpg');
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-10-23/53776020.jpg');
     }
-    header.site-heading {
-        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/335924.jpg');
-    }
+
+    
 </style>
 
-<!-- Page Header -->
 <header class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading text-center">
-                    <h1>Tags</h1>
-                    <span class="subheading">Endless Craving</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>在 terminal 中使用 ss</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2016-10-23
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/Tags/#terminal"
+                           title="terminal">terminal</a>
+                        
+                        <a class="tag" href="/Tags/#Shadowsockets"
+                           title="Shadowsockets">Shadowsockets</a>
+                        
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            在 terminal 中使用 ss
+        </span>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 标签云 -->
-            <div id='tag_cloud' class="tags">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于某些原因导致的在 terminal 中使用 <code>git clone / brew install ...</code> 等等命令异常缓慢, 甚至有些国外源也访问不了。</p>
+<h3 id="这里提供两种办法"><a href="#这里提供两种办法" class="headerlink" title="这里提供两种办法"></a>这里提供两种办法</h3><h5 id="方法1-最简单的是使用-VPN-。"><a href="#方法1-最简单的是使用-VPN-。" class="headerlink" title="方法1. 最简单的是使用 VPN 。"></a>方法1. 最简单的是使用 VPN 。</h5><h5 id="方法2-使用-Shadowsockets-。"><a href="#方法2-使用-Shadowsockets-。" class="headerlink" title="方法2. 使用 Shadowsockets 。"></a>方法2. 使用 Shadowsockets 。</h5><p>由于应用不走 proxy, 所以需要安装某些工具。这里使用的环境是: macOS 10.12 / iTerm2 oh-my-zsh。</p>
+<ul>
+<li><p>关闭 SIP<br>重启 macOS, 按 command + R 进入 Recovery 模式, 选择左上角 terminal, 输入 <code>csrutil disable; reboot</code> , 之后在 terminal 中输入 <code>csrutil status</code>  查看即可。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-23/70123986.jpg" alt="csrutil status.png"></p>
+</li>
+<li><p>安装 proxychains-ng</p>
+<p><code>brew install proxychains-ng</code>, 一句话搞定。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-23/77225563.jpg" alt="test.png"></p>
+<p>由于我是已经安装过的, 所以可能和你显示有出入。</p>
+</li>
+</ul>
+<ul>
+<li><p>测试是否可用</p>
+<p><code>proxychains4 curl www.google.com</code></p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-23/41630939.jpg" alt="test.png"></p>
+</li>
+<li><p>设置 alias</p>
+<p>由于我是使用 oh-my-zsh 的, 所以就在 <code>~/.zshrc</code> 里加入 <code>alias ss=proxychains4</code> 即可。</p>
+<p>以后想要在 terminal 中使用 ss, 只需 <code>ss 本来的命令</code>。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-23/89450085.jpg" alt="test.png"></p>
+</li>
+</ul>
+
+                <hr>
                 
-                <a href="#category" title="category" rel="1">category</a>
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2016/10/19/学生时代-1-排序算法/" data-toggle="tooltip" data-placement="top"
+                           title="学生时代 I 排序算法总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
                 
-                <a href="#terminal" title="terminal" rel="1">terminal</a>
+
                 
-                <a href="#Shadowsockets" title="Shadowsockets" rel="1">Shadowsockets</a>
-                
-                <a href="#算法" title="算法" rel="1">算法</a>
-                
-                <a href="#Swift" title="Swift" rel="1">Swift</a>
-                
+
             </div>
 
-            <!-- 标签列表 -->
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="category">
-                    <span class="tag-text">category</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/09/11/category/">
-                        <h2 class="post-title">
-                            Category 的一些事
-                        </h2>
-                        
-                    </a>
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#这里提供两种办法"><span class="toc-text">这里提供两种办法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#方法1-最简单的是使用-VPN-。"><span class="toc-text">方法1. 最简单的是使用 VPN 。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#方法2-使用-Shadowsockets-。"><span class="toc-text">方法2. 使用 Shadowsockets 。</span></a></li></ol></li></ol></li></ol>
                 </div>
-                <hr>
-                
             </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="terminal">
-                    <span class="tag-text">terminal</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/23/在-terminal-中使用-ss/">
-                        <h2 class="post-title">
-                            在 terminal 中使用 ss
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Shadowsockets">
-                    <span class="tag-text">Shadowsockets</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/23/在-terminal-中使用-ss/">
-                        <h2 class="post-title">
-                            在 terminal 中使用 ss
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="算法">
-                    <span class="tag-text">算法</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/19/学生时代-1-排序算法/">
-                        <h2 class="post-title">
-                            学生时代 I 排序算法总结
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Swift">
-                    <span class="tag-text">Swift</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/19/学生时代-1-排序算法/">
-                        <h2 class="post-title">
-                            学生时代 I 排序算法总结
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-
         </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#terminal"
+                           title="terminal">terminal</a>
+                        
+                        <a class="tag" href="/tags/#Shadowsockets"
+                           title="Shadowsockets">Shadowsockets</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
     </div>
-</div>
+</article>
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
