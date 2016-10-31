@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Tags｜Tsui YuenHong&#39;s Blog
+        让你的 QQ 不被撤回｜Tsui YuenHong&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.xurunkang.cn/Tags/">
+    <link rel="canonical" href="http://www.xurunkang.cn/2016/10/31/让你的-QQ-不被撤回/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -120,215 +120,145 @@
 </script>
 
 <!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-10-31/91330807.jpg">
+
+
 <style>
-    header.intro-header{
-        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/335924.jpg');
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-10-31/91330807.jpg');
     }
-    header.site-heading {
-        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/335924.jpg');
-    }
+
+    
 </style>
 
-<!-- Page Header -->
 <header class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading text-center">
-                    <h1>Tags</h1>
-                    <span class="subheading">Endless Craving</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>让你的 QQ 不被撤回</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2016-10-31
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/Tags/#逆向"
+                           title="逆向">逆向</a>
+                        
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            让你的 QQ 不被撤回
+        </span>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 标签云 -->
-            <div id='tag_cloud' class="tags">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="启发"><a href="#启发" class="headerlink" title="启发"></a>启发</h1><p>之前看到一篇文章<a href="http://yulingtianxia.com/blog/2016/05/06/Let-your-WeChat-for-Mac-never-revoke-messages/" target="_blank" rel="external">让你的微信不再被人撤回消息</a>，所以就受到启发，不如让 QQ 也不被撤回吧。</p>
+<p><strong>请注意：本文仅在越狱设备上可行</strong></p>
+<h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p><strong>环境：macOS 10.12 / hooper / class-dump / 已经砸壳的 QQ.ipa</strong></p>
+<p>是的，就这么简单。其中 <strong>已经砸壳的QQ.ipa</strong> 可以到各种越狱软件直接下载。</p>
+<h2 id="实验开始"><a href="#实验开始" class="headerlink" title="实验开始"></a>实验开始</h2><p>按照惯例，先 <strong>otool</strong> 一下看看是不是解密的，不过在越狱软件下肯定是解密的了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">otool -l /Users/TsuiYuenHong/Downloads/PP\ 下载/应用/QQ-6.5.8\(越狱应用\)/Payload/QQ.app/QQ | grep crypt</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-31/5444917.jpg" alt="查看是否解密"></p>
+<p>然后，使用 <strong>class-dump</strong> 看看有什么可用的信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">class-dump -H /Users/TsuiYuenHong/Downloads/PP\ 下载/应用/QQ-6.5.8\(越狱应用\)/Payload/QQ.app -o qq</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-31/89545411.jpg" alt="class-dump"></p>
+<p>这里就要用到 <strong>目测估计法</strong>，哈哈，就是这么简单粗暴。撤回无非就几个单词，revoke / recall / withdraw，(⊙v⊙) 那就都试试吧。不过这次运气比较好，试到 recall 就发现了可能有用的信息。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-31/50087688.jpg" alt="recallmodule"></p>
+<p>在头文件中发现一个叫 <strong>QQMessageRecallModule</strong> 的类，这翻译过来不就是 <strong>QQ信息撤回模块</strong> 吗？</p>
+<p>还发现了里面有个 <strong>处理撤回通知</strong> 的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">- (void)handleRecallNotify:(struct RecallModel *)arg1 isOnline:(BOOL)arg2;</div></pre></td></tr></table></figure>
+<p>那就直接从这个方法入手吧。</p>
+<p>把 <strong>QQ可执行文件</strong> 丢进 <strong>hooper</strong>，搜索 <strong>handleRecallNotify</strong>。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-31/21341903.jpg" alt="hooper"></p>
+<p>返回值是 <strong>void</strong>，那我就再次简单粗暴直接在函数一开始就 <strong>return</strong> 吧。然后使用 <strong>hooper</strong> 重新生成可执行文件，替换掉原本的 <strong>QQ可执行文件</strong>。</p>
+<p>然后将 <strong>QQ.app</strong> 放到 <strong>payload</strong> 文件夹下，然后压缩并重命名为 <strong>QQ.ipa</strong>，装到越狱设备上运行。</p>
+<p>因为手上没有 iPhone 越狱设备，所以就丢到 iPad 运行。</p>
+<p>这是用 iPhone 发的信息，并且间隔 1 分钟后撤回。<br><img src="http://ocnnxadky.bkt.clouddn.com/16-10-31/95482979.jpg" alt="iphone"></p>
+<p>这是我在 iPad 运行的修改版本，可以看见之前被撤回的信息还在。<br><img src="http://ocnnxadky.bkt.clouddn.com/16-10-31/17962254.jpg" alt=""></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>其实这个过程并不想本文一样简单，期间还试过乌龙，例如在找撤回方法的时候就试过 iPad 弄到自己不能撤回，hhhhh。</p>
+<p><strong>关于为什么不能再非越狱设备上运行，我也有尝试过，不过 QQ 会检测签名问题，所以当我重签名之后，会提示签名被修改，而不能正常运行。目前还在尝试 …</strong></p>
+
+                <hr>
                 
-                <a href="#category" title="category" rel="1">category</a>
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2016/10/31/关于-iOS-打包以及重签名的总结/" data-toggle="tooltip" data-placement="top"
+                           title="关于 iOS 打包以及重签名的总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
                 
-                <a href="#打包" title="打包" rel="1">打包</a>
+
                 
-                <a href="#重签名" title="重签名" rel="1">重签名</a>
-                
-                <a href="#自动化" title="自动化" rel="1">自动化</a>
-                
-                <a href="#逆向" title="逆向" rel="1">逆向</a>
-                
-                <a href="#terminal" title="terminal" rel="1">terminal</a>
-                
-                <a href="#Shadowsockets" title="Shadowsockets" rel="1">Shadowsockets</a>
-                
-                <a href="#算法" title="算法" rel="1">算法</a>
-                
-                <a href="#Swift" title="Swift" rel="1">Swift</a>
-                
+
             </div>
 
-            <!-- 标签列表 -->
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="category">
-                    <span class="tag-text">category</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/09/11/category/">
-                        <h2 class="post-title">
-                            Category 的一些事
-                        </h2>
-                        
-                    </a>
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#启发"><span class="toc-text">启发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开始"><span class="toc-text">开始</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验开始"><span class="toc-text">实验开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol></li></ol>
                 </div>
-                <hr>
-                
             </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="打包">
-                    <span class="tag-text">打包</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/31/关于-iOS-打包以及重签名的总结/">
-                        <h2 class="post-title">
-                            关于 iOS 打包以及重签名的总结
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="重签名">
-                    <span class="tag-text">重签名</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/31/关于-iOS-打包以及重签名的总结/">
-                        <h2 class="post-title">
-                            关于 iOS 打包以及重签名的总结
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="自动化">
-                    <span class="tag-text">自动化</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/31/关于-iOS-打包以及重签名的总结/">
-                        <h2 class="post-title">
-                            关于 iOS 打包以及重签名的总结
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="逆向">
-                    <span class="tag-text">逆向</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/31/让你的-QQ-不被撤回/">
-                        <h2 class="post-title">
-                            让你的 QQ 不被撤回
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="terminal">
-                    <span class="tag-text">terminal</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/23/在-terminal-中使用-ss/">
-                        <h2 class="post-title">
-                            在 terminal 中使用 Shadowsocks
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Shadowsockets">
-                    <span class="tag-text">Shadowsockets</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/23/在-terminal-中使用-ss/">
-                        <h2 class="post-title">
-                            在 terminal 中使用 Shadowsocks
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="算法">
-                    <span class="tag-text">算法</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/19/学生时代-1-排序算法/">
-                        <h2 class="post-title">
-                            学生时代 I 排序算法总结
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Swift">
-                    <span class="tag-text">Swift</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2016/10/19/学生时代-1-排序算法/">
-                        <h2 class="post-title">
-                            学生时代 I 排序算法总结
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-
         </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#逆向"
+                           title="逆向">逆向</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
     </div>
-</div>
+</article>
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
