@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://ocnnxadky.bkt.clouddn.com/16-9-11/77312641.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Tsui YuenHong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        关于 iOS 打包以及重签名的总结｜Tsui YuenHong&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.xurunkang.cn/2016/10/31/关于-iOS-打包以及重签名的总结/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/55665824.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tsui YuenHong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-10-31/65161122.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-10-31/65161122.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>关于 iOS 打包以及重签名的总结</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2016-10-31
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/Tags/#打包"
+                           title="打包">打包</a>
+                        
+                        <a class="tag" href="/Tags/#重签名"
+                           title="重签名">重签名</a>
+                        
+                        <a class="tag" href="/Tags/#自动化"
+                           title="自动化">自动化</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            关于 iOS 打包以及重签名的总结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="关于-iOS-自动化打包的一点看法"><a href="#关于-iOS-自动化打包的一点看法" class="headerlink" title="关于 iOS 自动化打包的一点看法"></a>关于 iOS 自动化打包的一点看法</h1><p>如果你曾经试过做多 target 的项目，到了测试人员要测试包的时候，你就会明白什么叫“生不如死”。虽然 Xcode 打包很方便，但是当你机械重复打 N 次包的时候，就会觉得这纯粹是浪费时间的工作。所以这时候自动化打包就显得尤为重要(其实就算只有一个 target，就算使用 Xcode 打包很方便，也应该构建自动化打包，因为你可以节省大量时间)。</p>
+<h1 id="构建自动化打包脚本"><a href="#构建自动化打包脚本" class="headerlink" title="构建自动化打包脚本"></a>构建自动化打包脚本</h1><h2 id="xcodebuild"><a href="#xcodebuild" class="headerlink" title="xcodebuild"></a>xcodebuild</h2><p>使用 <code>xcodebuild -h</code> 来看看 xcodebuild 到底是干啥的</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Usage: xcodebuild [-project &lt;projectname&gt;] [[-target &lt;targetname&gt;]...|-alltargets] [-configuration &lt;configurationname&gt;] [-arch &lt;architecture&gt;]... [-sdk [&lt;sdkname&gt;|&lt;sdkpath&gt;]] [-showBuildSettings] [&lt;buildsetting&gt;=&lt;value&gt;]... [&lt;buildaction&gt;]...</div><div class="line">       xcodebuild [-project &lt;projectname&gt;] -scheme &lt;schemeName&gt; [-destination &lt;destinationspecifier&gt;]... [-configuration &lt;configurationname&gt;] [-arch &lt;architecture&gt;]... [-sdk [&lt;sdkname&gt;|&lt;sdkpath&gt;]] [-showBuildSettings] [&lt;buildsetting&gt;=&lt;value&gt;]... [&lt;buildaction&gt;]...</div><div class="line">       xcodebuild -workspace &lt;workspacename&gt; -scheme &lt;schemeName&gt; [-destination &lt;destinationspecifier&gt;]... [-configuration &lt;configurationname&gt;] [-arch &lt;architecture&gt;]... [-sdk [&lt;sdkname&gt;|&lt;sdkpath&gt;]] [-showBuildSettings] [&lt;buildsetting&gt;=&lt;value&gt;]... [&lt;buildaction&gt;]...</div><div class="line">       xcodebuild -version [-sdk [&lt;sdkfullpath&gt;|&lt;sdkname&gt;] [&lt;infoitem&gt;] ]</div><div class="line">       xcodebuild -list [[-project &lt;projectname&gt;]|[-workspace &lt;workspacename&gt;]] [-json]</div><div class="line">       xcodebuild -showsdks</div><div class="line">       xcodebuild -exportArchive -archivePath &lt;xcarchivepath&gt; -exportPath &lt;destinationpath&gt; -exportOptionsPlist &lt;plistpath&gt;</div><div class="line">       xcodebuild -exportLocalizations -localizationPath &lt;path&gt; -project &lt;projectname&gt; [-exportLanguage &lt;targetlanguage&gt;...]</div><div class="line">       xcodebuild -importLocalizations -localizationPath &lt;path&gt; -project &lt;projectname&gt;</div></pre></td></tr></table></figure>
+<p>这里我只截取了 usage 部分，option 部分太多没有截取。</p>
+<p>这里介绍几条毕竟常用的命令</p>
+<h3 id="1-xcodebuild-list-…"><a href="#1-xcodebuild-list-…" class="headerlink" title="1. xcodebuild -list …"></a>1. xcodebuild -list …</h3><p><code>xcodebuild -list [[-project &lt;projectname&gt;]|[-workspace &lt;workspacename&gt;]] [-json]</code></p>
+<p>usage: 输出 project 中的 targets 和 configurations，或者 workspace 中 schemes。<br><code>-project</code> 和 <code>-workspace</code> 是输出指定内容，不输入默认输出当前目录下。<code>-json</code> 是以 json 格式输出。</p>
+<p>example:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ xcodebuild -list</div><div class="line">Information about project &quot;XX&quot;:</div><div class="line">    Targets:</div><div class="line">        XX</div><div class="line">        XXTests</div><div class="line"></div><div class="line">    Build Configurations:</div><div class="line">        Debug</div><div class="line">        Release</div><div class="line"></div><div class="line">    If no build configuration is specified and -scheme is not passed then &quot;Release&quot; is used.</div><div class="line"></div><div class="line">    Schemes:</div><div class="line">        XX</div></pre></td></tr></table></figure>
+<h3 id="2-xcodebuild-project-…"><a href="#2-xcodebuild-project-…" class="headerlink" title="2. xcodebuild -project …"></a>2. xcodebuild -project …</h3><p><code>xcodebuild [-project &lt;projectname&gt;] [[-target &lt;targetname&gt;]...|-alltargets] [-configuration &lt;configurationname&gt;] [-arch &lt;architecture&gt;]... [-sdk [&lt;sdkname&gt;|&lt;sdkpath&gt;]] [-showBuildSettings] [&lt;buildsetting&gt;=&lt;value&gt;]... [&lt;buildaction&gt;]...</code></p>
+<p>usage:</p>
+<p><code>-project</code>: 指定 project 名字，默认首个 project。</p>
+<p><code>-target</code>: 指定对应的 target ，默认首个 target。</p>
+<p><code>-configuration</code>: 选择Debug 或 Release，默认 Release，当然如果你有自定义的配置的，就应该选你配置的，上面 <code>-list</code> 中有输出。</p>
+<p><code>-showBuildSettings</code>: 显示工程的配置。</p>
+<p><code>&lt;buildsetting&gt;=&lt;value&gt;</code>: 修改工程的配置文件。</p>
+<p><code>buildaction ...</code> : 如下，默认为 build</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Specify a build action (or actions) to perform on the target.</div><div class="line">Available build actions are:</div><div class="line"></div><div class="line">build       Build the target in the build root (SYMROOT).  This is</div><div class="line">            the default build action.</div><div class="line"></div><div class="line">installsrc  Copy the source of the project to the source root</div><div class="line">            (SRCROOT).</div><div class="line"></div><div class="line">install     Build the target and install it into the target&apos;s</div><div class="line">            installation directory in the distribution root</div><div class="line">            (DSTROOT).</div><div class="line"></div><div class="line">clean       Remove build products and intermediate files from the</div><div class="line">            build root (SYMROOT).</div></pre></td></tr></table></figure>
+<p>example:</p>
+<ul>
+<li><code>$ xcodebuild -project 你的项目名字.xcodeproj -target 你的 target 名字 -configuration release</code></li>
+</ul>
+<p>这行命令表示编译 xx.xcodeproj 的 xx target。在 terminal 中会看到编译过程，如果成功最后会输出 <code>** BUILD SUCCEEDED **</code>。最后会在当前目录下生成 <code>build/Release-iphoneos/xx.app</code></p>
+<ul>
+<li><code>$ xcodebuild -project 你的项目名字.xcodeproj -target 你的 target 名字 -configuration release -showBuildSettings</code></li>
+</ul>
+<p>这行命令使用 <code>-showBuildSettings</code> 是不会 build 项目的，只是输出工程的配置。这里输出的的内容有(内容过多，只截取部分)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Build settings for action build and target XX:</div><div class="line">    ACTION = build</div><div class="line">    AD_HOC_CODE_SIGNING_ALLOWED = NO</div><div class="line">    ALTERNATE_GROUP = staff</div><div class="line">    ALTERNATE_MODE = u+w,go-w,a+rX</div><div class="line">    ALTERNATE_OWNER = TsuiYuenHong</div><div class="line">    ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO</div><div class="line">    ALWAYS_SEARCH_USER_PATHS = NO</div><div class="line">    ALWAYS_USE_SEPARATE_HEADERMAPS = NO</div><div class="line">    APPLE_INTERNAL_DEVELOPER_DIR = /AppleInternal/Developer</div><div class="line">    APPLE_INTERNAL_DIR = /AppleInternal</div><div class="line">    APPLE_INTERNAL_DOCUMENTATION_DIR = /AppleInternal/Documentation</div><div class="line">    APPLE_INTERNAL_LIBRARY_DIR = /AppleInternal/Library</div><div class="line">    APPLE_INTERNAL_TOOLS = /AppleInternal/Developer/Tools</div><div class="line">    APPLICATION_EXTENSION_API_ONLY = NO</div><div class="line">    APPLY_RULES_IN_COPY_FILES = NO</div><div class="line">    ARCHS = armv7 arm64</div><div class="line">    ...</div></pre></td></tr></table></figure>
+<p>如果要修改配置文件，就直接最命令最后加上你要修改的内容。<br>例如在这行命令最后加上指定证书</p>
+<ul>
+<li><code>$ xcodebuild -project 你的项目名字.xcodeproj -target 你的 target 名字 -configuration release PROVISIONING_PROFILE=&quot;你证书的id&quot;</code></li>
+</ul>
+<p>其中的字段是上面 <code>-showBuildSettings</code> 显示的字段，也可以看<a href="https://developer.apple.com/legacy/library/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/0-Introduction/introduction.html#//apple_ref/doc/uid/TP40003931-CH1-SW1" target="_blank" rel="external">官网介绍</a></p>
+<h3 id="3-xcodebuild-workspace-…"><a href="#3-xcodebuild-workspace-…" class="headerlink" title="3. xcodebuild -workspace …"></a>3. xcodebuild -workspace …</h3><p><code>xcodebuild -workspace &lt;workspacename&gt; -scheme &lt;schemeName&gt; [-destination &lt;destinationspecifier&gt;]... [-configuration &lt;configurationname&gt;] [-arch &lt;architecture&gt;]... [-sdk [&lt;sdkname&gt;|&lt;sdkpath&gt;]] [-showBuildSettings] [&lt;buildsetting&gt;=&lt;value&gt;]... [&lt;buildaction&gt;]...</code></p>
+<p>除了 workspace 和 scheme 之外其余选项都和上条命令相同。</p>
+<p><code>-workspace</code>: 指定 workspace 名字，默认首个 workspace</p>
+<p><code>-scheme</code>: 指定对应的 scheme ，默认首个 scheme</p>
+<h3 id="4-xcodebuild-exportArchive-…"><a href="#4-xcodebuild-exportArchive-…" class="headerlink" title="4 . xcodebuild -exportArchive …"></a>4 . xcodebuild -exportArchive …</h3><p>这里顺便介绍一下 archive 命令，因为在下面使用 PackageApplication 会出一个警告说推荐使用 <code>-exportArchive</code>。所以我们就来尝试一下使用 archive 来生成 app。</p>
+<p>首先使用一下命令来生成 .xcarchive 文件<br><code>xcodebuild archive -workspace xx.xcworkspace -scheme xx -archivePath xx.xcarchive</code><br>可以看出添加上 archive 命令和最后加入 <code>-archivePath</code> 生成archivePath的路径即可。<br>然后该路径下会生成一个 xx.archivePath，里面包括三个文件，xx.app.dsym文件(可用于bugly等监控bug的平台)，info.plist(保存打包的一些信息)，还有我们的 xx.app 文件。</p>
+<p>其次使用 -exportArchive 生成 ipa 包</p>
+<p><code>xcodebuild -exportArchive -archivePath xx.xcarchive -exportPath xx -exportFormat ipa</code></p>
+<p><code>-archivePath</code>: xx.archivePath 的路径</p>
+<p><code>-exportPath</code>: 输出路径</p>
+<p><code>-exportFormat</code>: 生成类型，这里选择我们需要的 ipa</p>
+<p>这样就利用我们的 xcodebuild 命令来生成 ipa 包</p>
+<h2 id="xcrun"><a href="#xcrun" class="headerlink" title="xcrun"></a>xcrun</h2><p>这里也使用 xcrun 来生成 ipa 包即可</p>
+<p><code>xcrun -sdk iphoneos PackageApplication build/Release-iphoneos/xx.app -o ~/Desktop/xx.ipa</code></p>
+<p>但是，在 macos10.12 和 Xcode8 的环境下会出现一个警告</p>
+<p><code>warning: PackageApplication is deprecated, use xcodebuild -exportArchive instead.</code></p>
+<p>说明 PackageApplication 已经被弃用了。</p>
+<p>不过其实这一步可以几乎等价于将 xx.app 放入一个 payload 的文件夹下然后压缩文件夹为 xx.ipa，当然这样做缺失一些信息，不过并不影响程序的运行。</p>
+<h2 id="初步小结"><a href="#初步小结" class="headerlink" title="初步小结"></a>初步小结</h2><p>综上，我们有两种方法来生成我们需要的 ipa 包。</p>
+<ol>
+<li>使用 xcodebuild 命令来编译我们的项目生成 app，然后再用 xcrun 将 app 转 ipa。</li>
+<li>使用 xcodebuild archive 命令来直接生成我们需要的 ipa。</li>
+</ol>
+<p>虽然现在网上几乎都是使用 xcodebuild + xcrun 来来生成 ipa 包，不过既然官方说 <code>PackageApplication is deprecated</code>，那还是推荐使用第二种方法，一步到位。</p>
+<h2 id="自动化打包正式开始"><a href="#自动化打包正式开始" class="headerlink" title="自动化打包正式开始"></a>自动化打包正式开始</h2><p>这里从我工作室的一个项目切入，这个项目需要最终生成 18 个 ipa 包，但是他们几乎是共用一套代码的，不同的地方在于bundleName/bundleDisplayName/bundleid 等，以及一些资源文件的不同，例如 icon 等。所以可想而知如果选择手动打包的痛苦，并且当你打包到一半发现某个地方错了要重新打包 ……</p>
+<p>这里说一下自动化打包1.0解决思路:</p>
+<ol>
+<li>使用命令 <code>defaults write</code> 来修改项目中的 plist 文件，来达到修改 bundleName/bundleDisplayName/bundleid… 的目的。</li>
+<li>使用命令 <code>cp</code> 来替换资源文件。</li>
+<li>使用 <code>xcodebuild -workspace ..</code> 编译出 app 包。</li>
+<li>使用 <code>xcrun ...</code> 生成 ipa 。</li>
+</ol>
+<p>这是我最开始想到的思路，最终运行时间大概为每个包2.5m(时间主要浪费在编译)，然后一套下来也要半个多小时。虽然比起手动打快了不少，但还是太慢了。毕竟自动化的目的不仅仅是自动，还要速度。</p>
+<p>既然问题出在编译上，那我的思路就往<strong>编译一次多次使用</strong>这个方向上面思考。然后想到了既然只是资源文件和plist的不同，没有涉及到代码的更换(不过这个项目后期不同 app 会执行不同一套代码，不过也有解决办法)，这里就出现了自动化打包2.0的版本。</p>
+<ol>
+<li>使用 <code>xcodebuild -workspace ..</code> 编译出 app 包。</li>
+<li>使用命令 <code>defaults write</code> 来修改项目中的 plist 文件，来达到修改 bundleName/bundleDisplayName/bundleid… 的目的。</li>
+<li>使用命令 <code>cp</code> 来替换资源文件。</li>
+<li>重签名 <code>codesign -f -s &quot;iPhone Distribution: xx co., LTD&quot; --entitlements $Entitlements $ipaPath/Payload/YouXiaoYun.app</code></li>
+<li>使用 <code>xcrun ...</code> 生成 ipa 。</li>
+</ol>
+<p>和1.0大致相似，不过并不是每次生成 ipa 都需要编译一次。而是编译一次，然后直接修改 app 下内容，不过这里会出现签名错误的问题，因为在编译的最后会用证书帮 app 签名，如果你直接替换资源然后就生成 ipa 的话会导致 ipa 无法安装。</p>
+<p>那这时候神奇的重签名技术就出来(重签名用在正途上的真少见…hhhh，关于重签名的文章 google 一下就会很多)，使用 codesign 命令就可以帮修改过资源的 app 重签名。<br>最终使用2.0的时间基本是在5-6分钟左右。果然能机器完成的工作绝对不要手动完成，从半天到30分钟到最后的6分钟，节省下来的时间可以让你学习到更多。</p>
+<p>上面说到如果不同 app 间会用到不同的代码。例如 app A 里面的 title 叫 A 部门，app B 里面 title 又叫 B 部门，这样就不会通过命令行直接修改到代码，不过我想到的是维护一个 plist 文件，plist 文件可以这样设计的，每个不同 app 的 bundleName 都设置字典的键，然后字典下就可以是你自定义的内容。然后每次启动 app 就根据 bundleName 来寻找对应的字典，然后 title 就赋值为 plist 下 title 的值。如果不同代码就根据 code1 里面的值来 switch 不同的代码。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/16-10-31/1466954.jpg" alt="appInfos.plist"></p>
+<h2 id="最终代码"><a href="#最终代码" class="headerlink" title="最终代码"></a>最终代码</h2><p>以下是完整的脚本文件，部分信息需要自己替换。<br>以下脚本适用于一次打 N 个包，适用情况：</p>
+<ol>
+<li>可以替换 bundle 信息</li>
+<li>替换音频图片资源</li>
+<li>可以执行不同代码</li>
+<li>生成相应的plist文件</li>
+<li>上传到蒲公英分发平台</li>
+</ol>
+<p>当然也可以打一个包，适当删除某些代码即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># 1.Configuration Info</div><div class="line"></div><div class="line"># 项目路径 需修改</div><div class="line">projectDir=&quot;你的项目路径&quot;</div><div class="line"></div><div class="line"># 打包生成路径 需修改</div><div class="line">ipaPath=&quot;ipa生成路径&quot;</div><div class="line"></div><div class="line"># 图标路径 需修改</div><div class="line">iconPath=&quot;~/Desktop/icon&quot;</div><div class="line"></div><div class="line"># Provisioning Profile 需修改 查看本地配置文件</div><div class="line">PROVISIONING_PROFILE=&quot;xxxxxxx-xxxx-4bfa-a696-0ec7391b24d8&quot;</div><div class="line"></div><div class="line">############# 重签名需要文件</div><div class="line"># 以下文件需放在 ipaPath 路径下</div><div class="line">Entitlements=$ipaPath/entitlements.plist</div><div class="line">#############</div><div class="line"></div><div class="line"># 版本号</div><div class="line">bundleVersion=&quot;2.0.0&quot;</div><div class="line"></div><div class="line"># 选择打包序号 多选则以空格隔开 如(&quot;1&quot; &quot;2&quot; &quot;3&quot;)</div><div class="line">appPackNum=(&quot;1 2&quot;)</div><div class="line"></div><div class="line"># 蒲公英分发参数 不分发可忽略 默认不分发 下面的两个KEY是默认测试的网址对应KEY</div><div class="line">ISUPLOAD=0</div><div class="line">USERKEY=&quot;xxx&quot;</div><div class="line">APIKEY=&quot;xxx&quot;</div><div class="line"></div><div class="line"># ---------------------------可选 如果需要替换 app 的 icon --------------------------------- #</div><div class="line"></div><div class="line"># 配置App信息数组 格式:&quot;AppName(和工程中appInfo.Plist对应)&quot; &quot;icon&quot;</div><div class="line">#Schemes:</div><div class="line">#        1.app1 app1Icon</div><div class="line">#        2.app2 app2Icon</div><div class="line">#        3.app3 app3Icon</div><div class="line"></div><div class="line"># --------------------------------------------------------------------------------------- #</div><div class="line"></div><div class="line"># 打包个数</div><div class="line">appPackNumLength=$&#123;#appPackNum[*]&#125;</div><div class="line"></div><div class="line">appInfos=(</div><div class="line">          &quot;app1&quot; &quot;app1Icon&quot; &quot;xxxx&quot;</div><div class="line">          &quot;app2&quot; &quot;app2Icon&quot; &quot;xxxx&quot;</div><div class="line">          &quot;app3&quot; &quot;app3Icon&quot; &quot;xxxx&quot;</div><div class="line">          )</div><div class="line"></div><div class="line">appInfosLength=$&#123;#appInfos[*]&#125;</div><div class="line"></div><div class="line"># Scheme Name</div><div class="line">schemeName=&quot;xx&quot;</div><div class="line"></div><div class="line"># Code Sign ID</div><div class="line">CODE_SIGN_IDENTITY=&quot;xx co., LTD&quot;</div><div class="line"></div><div class="line"># 生成 APP 路径</div><div class="line">buildDir=&quot;build/Release-iphoneos&quot;</div><div class="line"></div><div class="line"># 开始时间</div><div class="line">beginTime=`date +%s`</div><div class="line"></div><div class="line"># 创建打包目录</div><div class="line">mkdir $&#123;ipaPath&#125;/AllPack</div><div class="line"></div><div class="line"># 本地存放全部 IPA 的路径</div><div class="line">allIPAPackPath=&quot;$&#123;ipaPath&#125;/allPack&quot;</div><div class="line"></div><div class="line"># 清除缓存</div><div class="line">rm -rf $projectDir/$buildDir</div><div class="line"></div><div class="line"># Build 生成 APP</div><div class="line">xcodebuild -workspace $&#123;projectDir&#125;/xx.xcworkspace -scheme $&#123;schemeName&#125; -configuration Release clean -sdk iphoneos build CODE_SIGN_IDENTITY=&quot;$&#123;CODE_SIGN_IDENTITY&#125;&quot; PROVISIONING_PROFILE=&quot;$&#123;PROVISIONING_PROFILE&#125;&quot; SYMROOT=&quot;$&#123;projectDir&#125;/build&quot;</div><div class="line">if [[ $? = 0 ]]; then</div><div class="line">  echo &quot;\033[31m 编译成功\n \033[0m&quot;</div><div class="line">else</div><div class="line">  echo &quot;\033[31m 编译失败\n \033[0m&quot;</div><div class="line">fi</div><div class="line"></div><div class="line"># 先创建 payload 文件夹</div><div class="line">mkdir ~/Desktop/Payload</div><div class="line"># 移动编译生成的 app 到桌面的 Payload 文件夹下</div><div class="line">cp -Rf $&#123;projectDir&#125;/$&#123;buildDir&#125;/$&#123;schemeName&#125;.app $ipaPath/Payload</div><div class="line"></div><div class="line"># 以下二选一</div><div class="line"># 1.----全部打包----</div><div class="line">#for (( i=0; i&lt;appInfosLength; i+=3 )); do</div><div class="line"></div><div class="line"># 2.----自定义打包----</div><div class="line">for (( j=0; j&lt;$appPackNumLength; j++)); do i=`expr $&#123;appPackNum[$j]&#125; - 1` i=`expr $i \* 3`</div><div class="line"></div><div class="line"># App Bundle Name (CFBundleName)</div><div class="line">appName=$&#123;appInfos[$&#123;i&#125;]&#125;</div><div class="line"></div><div class="line"># App DisPlay Name</div><div class="line">appDisplayName=$&#123;appInfos[$&#123;i&#125;]&#125;</div><div class="line"></div><div class="line"># App Icon Name</div><div class="line">appIconName=$&#123;appInfos[$i+1]&#125;</div><div class="line"></div><div class="line"># App Download Name</div><div class="line">appDownloadName=$&#123;appInfos[$i+2]&#125;</div><div class="line"></div><div class="line"># 创建不同 app ipa 目录</div><div class="line">mkdir $allIPAPackPath/$appName</div><div class="line">rm -rf $allIPAPackPath/$appName/*</div><div class="line"></div><div class="line">echo &quot;\033[31m appName:$appName appIconName:$appIconName appDownloadName:$appDownloadName\n \033[0m&quot;</div><div class="line"></div><div class="line"># 将对应的 icon 复制到需要修改的 app 的目录下</div><div class="line">cp -Rf $iconPath/$appName/* $ipaPath/Payload/YouXiaoYun.app</div><div class="line"></div><div class="line">if [[ $? = 0 ]]; then</div><div class="line"> echo &quot;\033[31m 修改 icon 成功\033[0m&quot;</div><div class="line">else</div><div class="line"> echo &quot;\033[31m 修改 icon 失败\033[0m&quot;</div><div class="line">fi</div><div class="line"></div><div class="line"># 修改 Plist</div><div class="line">defaults write $ipaPath/Payload/xx.app/info.plist &quot;CFBundleName&quot; $appName</div><div class="line">defaults write $ipaPath/Payload/xx.app/info.plist &quot;CFBundleDisplayName&quot; $appDisplayName</div><div class="line"></div><div class="line">if [[ $? = 0 ]]; then</div><div class="line">  echo &quot;\033[31m 修改 Plist 成功\033[0m&quot;</div><div class="line">else</div><div class="line">  echo &quot;\033[31m 修改 Plist 失败\033[0m&quot;</div><div class="line">fi</div><div class="line"></div><div class="line"># 重签名</div><div class="line">codesign -f -s &quot;xx co., LTD&quot; --entitlements $Entitlements $ipaPath/Payload/xx.app</div><div class="line">if [[ $? = 0 ]]; then</div><div class="line">echo &quot;\033[31m 签名成功\n \033[0m&quot;</div><div class="line">else</div><div class="line">echo &quot;\033[31m 签名失败\n \033[0m&quot;</div><div class="line">fi</div><div class="line"></div><div class="line"># 生成 ipa</div><div class="line">xcrun -sdk iphoneos -v PackageApplication $ipaPath/Payload/.app -o $&#123;ipaPath&#125;/$appDownloadName.ipa</div><div class="line"></div><div class="line">if [[ $? = 0 ]]; then</div><div class="line">  echo &quot;\033[31m \n 生成 IPA 成功 \n\n\n\n\n\033[0m&quot;</div><div class="line">else</div><div class="line">  echo &quot;\033[31m \n 生成 IPA 失败 \n\n\n\n\n\033[0m&quot;</div><div class="line">fi</div><div class="line"></div><div class="line"># 创建 Plist</div><div class="line">plist_path=$allIPAPackPath/$appName/$appDownloadName.plist</div><div class="line"></div><div class="line">cat &lt;&lt; EOF &gt; $plist_path</div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</div><div class="line">&lt;plist version=&quot;1.0&quot;&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">	&lt;key&gt;items&lt;/key&gt;</div><div class="line">	&lt;array&gt;</div><div class="line">		&lt;dict&gt;</div><div class="line">			&lt;key&gt;assets&lt;/key&gt;</div><div class="line">			&lt;array&gt;</div><div class="line">				&lt;dict&gt;</div><div class="line">					&lt;key&gt;kind&lt;/key&gt;</div><div class="line">					&lt;string&gt;software-package&lt;/string&gt;</div><div class="line">					&lt;key&gt;url&lt;/key&gt;</div><div class="line">					&lt;string&gt;https://xxxxxxxxxxxx/$appDownloadName.ipa&lt;/string&gt;</div><div class="line">				&lt;/dict&gt;</div><div class="line">				&lt;dict&gt;</div><div class="line">					&lt;key&gt;kind&lt;/key&gt;</div><div class="line">					&lt;string&gt;display-image&lt;/string&gt;</div><div class="line">					&lt;key&gt;url&lt;/key&gt;</div><div class="line">					&lt;string&gt;https://xxxxxxxxxxxx/$&#123;appIconName&#125;.png&lt;/string&gt;</div><div class="line">				&lt;/dict&gt;</div><div class="line">				&lt;dict&gt;</div><div class="line">					&lt;key&gt;kind&lt;/key&gt;</div><div class="line">					&lt;string&gt;full-size-image&lt;/string&gt;</div><div class="line">					&lt;key&gt;url&lt;/key&gt;</div><div class="line">					&lt;string&gt;https://xxxxxxxxxxxx/$&#123;appIconName&#125;.png&lt;/string&gt;</div><div class="line">				&lt;/dict&gt;</div><div class="line">			&lt;/array&gt;</div><div class="line">			&lt;key&gt;metadata&lt;/key&gt;</div><div class="line">			&lt;dict&gt;</div><div class="line">				&lt;key&gt;bundle-identifier&lt;/key&gt;</div><div class="line">				&lt;string&gt;你的bundid&lt;/string&gt;</div><div class="line">				&lt;key&gt;bundle-version&lt;/key&gt;</div><div class="line">				&lt;string&gt;$bundleVersion&lt;/string&gt;</div><div class="line">				&lt;key&gt;kind&lt;/key&gt;</div><div class="line">				&lt;string&gt;software&lt;/string&gt;</div><div class="line">				&lt;key&gt;title&lt;/key&gt;</div><div class="line">				&lt;string&gt;$appDownloadName&lt;/string&gt;</div><div class="line">			&lt;/dict&gt;</div><div class="line">		&lt;/dict&gt;</div><div class="line">	&lt;/array&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;/plist&gt;</div><div class="line">EOF</div><div class="line"></div><div class="line"># 移动</div><div class="line">mv $&#123;ipaPath&#125;/$appDownloadName.ipa $&#123;allIPAPackPath&#125;/$appName</div><div class="line"></div><div class="line"># 6.上传蒲公英分发平台</div><div class="line"></div><div class="line">if [[ $ISUPLOAD = 1 ]]; then</div><div class="line">  echo &quot;正在上传蒲公英...&quot;</div><div class="line">  curl -F &quot;file=@$allIPAPackPath/$appName/$appDownloadName.ipa&quot; -F &quot;uKey=$USERKEY&quot; -F &quot;_api_key=$APIKEY&quot; http://www.pgyer.com/apiv1/app/upload</div><div class="line"></div><div class="line">fi</div><div class="line"></div><div class="line">done</div><div class="line"></div><div class="line"># 清除无关文件</div><div class="line">rm -rf $ipaPath/Payload</div><div class="line"></div><div class="line"># 结束时间</div><div class="line">endTime=`date +%s`</div><div class="line">echo -e &quot;打包时间$[ endTime - beginTime ]秒&quot;</div></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2016/10/23/在-terminal-中使用-ss/" data-toggle="tooltip" data-placement="top"
+                           title="在 terminal 中使用 Shadowsocks">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于-iOS-自动化打包的一点看法"><span class="toc-text">关于 iOS 自动化打包的一点看法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#构建自动化打包脚本"><span class="toc-text">构建自动化打包脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xcodebuild"><span class="toc-text">xcodebuild</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-xcodebuild-list-…"><span class="toc-text">1. xcodebuild -list …</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-xcodebuild-project-…"><span class="toc-text">2. xcodebuild -project …</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-xcodebuild-workspace-…"><span class="toc-text">3. xcodebuild -workspace …</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-xcodebuild-exportArchive-…"><span class="toc-text">4 . xcodebuild -exportArchive …</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xcrun"><span class="toc-text">xcrun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初步小结"><span class="toc-text">初步小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动化打包正式开始"><span class="toc-text">自动化打包正式开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最终代码"><span class="toc-text">最终代码</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#打包"
+                           title="打包">打包</a>
+                        
+                        <a class="tag" href="/tags/#重签名"
+                           title="重签名">重签名</a>
+                        
+                        <a class="tag" href="/tags/#自动化"
+                           title="自动化">自动化</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tsui YuenHong 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.xurunkang.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-83299030-1';
+    var _gaDomain = 'xurunkang.cn';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-9-11/83615943.jpg">
+</body>
+
+</html>
