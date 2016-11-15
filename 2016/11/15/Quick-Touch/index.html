@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://ocnnxadky.bkt.clouddn.com/16-9-11/77312641.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Tsui YuenHong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Quick Touch - 在 iOS 设备运行的 &quot;Touch Bar&quot;｜Tsui YuenHong&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.xurunkang.cn/2016/11/15/Quick-Touch/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/55665824.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tsui YuenHong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/public/16-11-15/17063611.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/public/16-11-15/17063611.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Quick Touch - 在 iOS 设备运行的 &quot;Touch Bar&quot;</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2016-11-15
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/Tags/#Quick Touch"
+                           title="Quick Touch">Quick Touch</a>
+                        
+                        <a class="tag" href="/Tags/#Touch Bar"
+                           title="Touch Bar">Touch Bar</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Quick Touch - 在 iOS 设备运行的 "Touch Bar"
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="Quick-Touch-在-iOS-设备运行的-“Touch-Bar”"><a href="#Quick-Touch-在-iOS-设备运行的-“Touch-Bar”" class="headerlink" title="Quick Touch - 在 iOS 设备运行的 “Touch Bar”"></a>Quick Touch - 在 iOS 设备运行的 “Touch Bar”</h1><h2 id="关于-Quick-Touch-amp-Touch-Bar"><a href="#关于-Quick-Touch-amp-Touch-Bar" class="headerlink" title="关于 Quick Touch &amp; Touch Bar"></a>关于 Quick Touch &amp; Touch Bar</h2><p>Touch Bar 其实就是在原来 MBP 的按键区顶部新增了一个长条形的OLED触控屏，提供一些常用的快捷键。(iMessage 选表情那个真的非常好 ~)</p>
+<p>Quick Touch 这个应用的 idea 是受 Touch Bar 激发的。当然，在我看来，Quick Touch 的功能可以比 Touch Bar 更强大，可以远程控制、自定义命令(不用等应用适配 Touch Bar)、几乎可以执行所有 MacBook 的操作。</p>
+<h2 id="Quick-Touch-的功能"><a href="#Quick-Touch-的功能" class="headerlink" title="Quick Touch 的功能"></a>Quick Touch 的功能</h2><p>Quick Touch 的 github 地址 ：<a href="https://github.com/xurunkang/QuickTouch" target="_blank" rel="external">https://github.com/xurunkang/QuickTouch</a></p>
+<p>目前的 Quick Touch 界面是十分简陋的，不过功能基本都实现。<br>具体功能功能可以参考 <a href="https://github.com/xurunkang/QuickTouch/blob/master/README.md" target="_blank" rel="external">Quick Touch 介绍</a>，也可以看演示视频 <a href="http://www.bilibili.com/video/av7107528/" target="_blank" rel="external">Quick Touch 演示</a></p>
+<h2 id="Quick-Touch-的实现"><a href="#Quick-Touch-的实现" class="headerlink" title="Quick Touch 的实现"></a>Quick Touch 的实现</h2><p>大体思路：利用局域网的 socket 连接，iOS 设备与 MacBook 之间通过 UDP 发送信息。<br>需要解决的问题有：</p>
+<ol>
+<li><p>Mac 切换 app 要及时通知 iPhone，iPhone 再相应地切换每个 app 对应的快捷键</p>
+<p>Mac 提供了系统通知 <code>NSWorkspaceDidActivateApplicationNotification</code> 来使得这一功能实现</p>
+<p>Mac 发送通知，这里只是监听了切换应用的事件，有更多通知可以监听。需要监听更多事件可以进入 <code>NSWorkspace.h</code> 来查看通知的名字。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 监听事件</div><div class="line">[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(sendMacInfos) name:NSWorkspaceDidActivateApplicationNotification object:nil];</div><div class="line"></div><div class="line">#pragma mark - Send Mac Infos</div><div class="line">- (void)sendMacInfos&#123;</div><div class="line">    NSDictionary *macInfos = @&#123;</div><div class="line">                               @&quot;currentAppName&quot;:[NSWorkspace sharedWorkspace].frontmostApplication.localizedName,</div><div class="line">                               &#125;;</div><div class="line">    NSData *macInfosData = [NSJSONSerialization dataWithJSONObject:macInfos options:NSJSONWritingPrettyPrinted error:nil];</div><div class="line">    [_udpSocket sendData:macInfosData toHost:QTHOST port:QTSENDPORT withTimeout:1.0 tag:0];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>iOS 接收信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#pragma mark - GCDAsyncUdpSocketDelegate</div><div class="line">- (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext&#123;</div><div class="line">    NSDictionary *macInfos = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];</div><div class="line">    _appNameLabel.text = macInfos[@&quot;currentAppName&quot;];</div><div class="line">    [_appQTTableView reloadData];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>iOS 控制 Mac 端的命令</p>
+<p>由于这里涉及操作过多，就简单介绍一下，详细可以看 <a href="https://github.com/xurunkang/QuickTouch" target="_blank" rel="external">Github / QuickTouch</a> 的源码。</p>
+<ul>
+<li><p>执行快捷键：可以使用 <code>CGEventCreateKeyboardEvent</code> 来创建键盘事件，从而执行应用的快捷键。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 创建点击键盘事件</div><div class="line">CGEventRef eventDown, eventUp;</div><div class="line">eventDown = CGEventCreateKeyboardEvent(nil, keyCode, YES);</div><div class="line">eventUp = CGEventCreateKeyboardEvent(nil, keyCode, NO);</div><div class="line">CGEventPost(kCGHIDEventTap, eventDown);</div><div class="line">sleep(0.0001);</div><div class="line">CGEventPost(kCGHIDEventTap, eventUp);</div><div class="line">CFRelease(eventUp);</div><div class="line">CFRelease(eventDown);</div></pre></td></tr></table></figure>
+</li>
+<li><p>输出命令：如 <code>git log / pwd</code>，原理同上。</p>
+</li>
+<li><p>点击 Menu Bar 的功能：由于某些功能并没有快捷键，所以要操作 Menu Bar，这里是使用 Apple Script。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 创建点击 Menu Bar 事件</div><div class="line">NSString *scriptStr = [NSString stringWithFormat:@&quot;tell application \&quot;System Events\&quot; to tell process \&quot;%@\&quot;\</div><div class="line">                     \nset frontmost to true\</div><div class="line">                     \nclick menu item \&quot;%@\&quot; of menu \&quot;%@\&quot; of menu bar %ld\</div><div class="line">                     \nend tell&quot;,appName,item,menu,(long)menuBar];</div><div class="line">NSAppleScript *clickMenuBarItemScript = [[NSAppleScript alloc] initWithSource:scriptStr];</div><div class="line">[clickMenuBarItemScript executeAndReturnError:nil];</div></pre></td></tr></table></figure>
+</li>
+<li><p>系统设置： 如亮度调节/启动 app，则需要使用系统中的 API</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 调节系统亮度</div><div class="line">io_iterator_t iterator;</div><div class="line">kern_return_t result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(&quot;IODisplayConnect&quot;), &amp;iterator);</div><div class="line">if (result == kIOReturnSuccess) &#123;</div><div class="line">    io_object_t service;</div><div class="line">    while ((service = IOIteratorNext(iterator))) &#123;</div><div class="line">        IODisplaySetFloatParameter(service, kNilOptions, CFSTR(kIODisplayBrightnessKey), level);</div><div class="line">        IOObjectRelease(service);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 启动 app    </div><div class="line">[[NSWorkspace sharedWorkspace] launchApplication:name];</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>自定义命令</p>
+<ul>
+<li><p>自定义键盘事件：<strong>QTKey</strong> 中提供了三个方法使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">+ (void)pressNormalKey:(CGKeyCode) keyCode;</div><div class="line">+ (void)pressNormalKey:(CGKeyCode)keyCode withFlag:(NSString *)flag;</div><div class="line">+ (void)pressNormalKey:(CGKeyCode) keyCode withFlags:(NSArray *)flags;</div></pre></td></tr></table></figure>
+</li>
+<li><p>自定义系统设置：<strong>QTSystemSetting</strong> 中提供了一系列方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 设置系统亮度</div><div class="line">+ (void)setSystemBrightness:(float)level;</div><div class="line"></div><div class="line">// 设置/获取系统音量</div><div class="line">+ (void)setSystemVolume:(int)level;</div><div class="line">+ (SInt32)getSystemVolume;</div><div class="line"></div><div class="line">// 使 Mac 休眠</div><div class="line">+ (void)sleepWithDelay:(int)delay;</div><div class="line">+ (void)sleepNow;</div><div class="line"></div><div class="line">// 获取某个 APP menuItem 的全部名称</div><div class="line">+ (void)fetchAllMenuItemNameOfApp:(NSString *)appName;</div><div class="line"></div><div class="line">// 模拟点击 MenuItem</div><div class="line">+ (void)clickMenuItem:(NSString *)item</div><div class="line">               ofMenu:(NSString *)menu</div><div class="line">            ofMenuBar:(NSInteger)menuBar</div><div class="line">        ofApplication:(NSString *)appName;</div><div class="line"></div><div class="line">// 模拟点击 SubMenuItem</div><div class="line">+ (void)clickSubMenuItem:(NSString *)subItem</div><div class="line">              ofMenuItem:(NSString *)item</div><div class="line">               ofMenu:(NSString *)menu</div><div class="line">            ofMenuBar:(NSInteger)menuBar</div><div class="line">        ofApplication:(NSString *)appName;</div><div class="line"></div><div class="line">// 启动某个 APP</div><div class="line">+ (void)launchApp:(NSString *)name;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="Quick-Touch-使用的第三方库"><a href="#Quick-Touch-使用的第三方库" class="headerlink" title="Quick Touch 使用的第三方库"></a>Quick Touch 使用的第三方库</h2><ul>
+<li><a href="https://github.com/robbiehanson/CocoaAsyncSocket" target="_blank" rel="external">GCDAsyncSocket</a></li>
+<li><a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry</a></li>
+<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" rel="external">ReactiveCocoa 2.5</a></li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2016/10/31/让你的-QQ-不被撤回/" data-toggle="tooltip" data-placement="top"
+                           title="让你的 QQ 不被撤回">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Quick-Touch-在-iOS-设备运行的-“Touch-Bar”"><span class="toc-text">Quick Touch - 在 iOS 设备运行的 “Touch Bar”</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于-Quick-Touch-amp-Touch-Bar"><span class="toc-text">关于 Quick Touch & Touch Bar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Touch-的功能"><span class="toc-text">Quick Touch 的功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Touch-的实现"><span class="toc-text">Quick Touch 的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Touch-使用的第三方库"><span class="toc-text">Quick Touch 使用的第三方库</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Quick Touch"
+                           title="Quick Touch">Quick Touch</a>
+                        
+                        <a class="tag" href="/tags/#Touch Bar"
+                           title="Touch Bar">Touch Bar</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tsui YuenHong 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.xurunkang.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-83299030-1';
+    var _gaDomain = 'xurunkang.cn';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-9-11/83615943.jpg">
+</body>
+
+</html>
