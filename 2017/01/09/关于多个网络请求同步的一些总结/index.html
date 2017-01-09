@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://ocnnxadky.bkt.clouddn.com/16-9-11/77312641.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Tsui YuenHong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        关于多个网络请求同步的一些总结｜Tsui YuenHong&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.xurunkang.cn/2017/01/09/关于多个网络请求同步的一些总结/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/55665824.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tsui YuenHong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/17-1-9/88579152-file_1483939675212_c3ce.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/17-1-9/88579152-file_1483939675212_c3ce.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>关于多个网络请求同步的一些总结</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2017-01-09
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/Tags/#swift"
+                           title="swift">swift</a>
+                        
+                        <a class="tag" href="/Tags/#网络请求"
+                           title="网络请求">网络请求</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            关于多个网络请求同步的一些总结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="等待多个并发请求同步回调"><a href="#等待多个并发请求同步回调" class="headerlink" title="等待多个并发请求同步回调"></a>等待多个并发请求同步回调</h3><p>例如同时发起网络请求A，网络请求B，网络请求C，需等待A，B，C都返回了才进行回调。曾经是利用 <code>block</code> 嵌套，就是A回调嵌B，B回调嵌C，十分肤浅的做法╮(╯▽╰)╭<br>这里介绍 <code>GCD</code> 中的两种方法，第一种是利用 <code>DispatchGroup</code> 的 <code>enter</code> 和 <code>leave</code>，第二种是利用 <code>DispatchSemaphore</code> 信号量。<br>以下代码是基于 swift 3.0.2</p>
+<p>首先先创建一个模拟请求</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 假装是网络请求</div><div class="line">   func networkRequest(sleepTime: Int, closure: @escaping ()-&gt;Void) -&gt; Void &#123;</div><div class="line">       DispatchQueue.global().async &#123;</div><div class="line">           Thread.sleep(forTimeInterval: TimeInterval(sleepTime))</div><div class="line">           // 假装是成功回调</div><div class="line">           closure()</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>第一种方法利用 <code>enter&amp;leave</code>。需要注意的是 <code>enter&amp;leave</code> 必须成对出现，<code>enter</code> 少了会崩溃，<code>leave</code> 少了则永远不会执行 <code>notify</code> 函数。<br>这种方法的原理就是：</p>
+<ol>
+<li>请求前 <code>enter</code>。</li>
+<li>请求完成后 <code>leave</code>。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 利用 enter/leave 来控制</div><div class="line">   func gcd_group_enter_leave() &#123;</div><div class="line">       let group = DispatchGroup.init()</div><div class="line">       let queue = DispatchQueue.global()</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           group.enter()</div><div class="line">           print(&quot;1 start&quot;)</div><div class="line">           self.networkRequest(sleepTime:1, closure: &#123;</div><div class="line">               print(&quot;1 end&quot;)</div><div class="line">               group.leave()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           group.enter()</div><div class="line">           print(&quot;2 start&quot;)</div><div class="line">           self.networkRequest(sleepTime:2, closure: &#123;</div><div class="line">               print(&quot;2 end&quot;)</div><div class="line">               group.leave()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           group.enter()</div><div class="line">           print(&quot;3 start&quot;)</div><div class="line">           self.networkRequest(sleepTime:2, closure: &#123;</div><div class="line">               print(&quot;3 end&quot;)</div><div class="line">               group.leave()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           group.enter()</div><div class="line">           print(&quot;4 start&quot;)</div><div class="line">           self.networkRequest(sleepTime:2, closure: &#123;</div><div class="line">               print(&quot;4 end&quot;)</div><div class="line">               group.leave()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       group.notify(queue: queue) &#123; // 所有组完成后回调</div><div class="line">           print(&quot;all done&quot;)</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>第二种方法是利用信号量的 <code>wait&amp;signal</code>，简单来说就是：<code>signal</code> 就是释放信号即信号量 +1，<code>wait</code> 就是等待信号即信号量-1。<code>wait&amp;signal</code>也是必须成对出现。<br>这种方法的原理就是：</p>
+<ol>
+<li>创建0信号量。</li>
+<li>请求完成释放信号，使得信号量+1。</li>
+<li><code>notify</code> 的回调操作前加入 <code>wait</code> 操作(多少请求就加多少 <code>wait</code>，这要做为了得到足够的信号量才能执行 <code>wait</code> 下面的代码）。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 利用 semaphore 来控制</div><div class="line">   func gcd_semaphore_wait_signal() &#123;</div><div class="line">       let semaphore = DispatchSemaphore.init(value: 0)</div><div class="line">       let group = DispatchGroup.init()</div><div class="line">       let queue = DispatchQueue.global()</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           self.networkRequest(sleepTime:1, closure: &#123;</div><div class="line">               print(&quot;1&quot;)</div><div class="line">               semaphore.signal()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           self.networkRequest(sleepTime:2, closure: &#123;</div><div class="line">               print(&quot;2&quot;)</div><div class="line">               semaphore.signal()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           self.networkRequest(sleepTime:2, closure: &#123;</div><div class="line">               print(&quot;3&quot;)</div><div class="line">               semaphore.signal()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       group.notify(queue: queue) &#123;</div><div class="line">           semaphore.wait()</div><div class="line">           semaphore.wait()</div><div class="line">           semaphore.wait()</div><div class="line">           print(&quot;all done&quot;)</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="多个相关请求顺序执行"><a href="#多个相关请求顺序执行" class="headerlink" title="多个相关请求顺序执行"></a>多个相关请求顺序执行</h3><p>有时候开发中也会遇到利用网络请求A返回的的数据来进行网络请求B，以前也是十分肤浅地利用嵌套，虽然简单可行而且可以减少中间变量，但是出现过多嵌套代码不易debug。这里也是可以利用 <code>DispatchSemaphore</code> 信号量。网络请求A完成后 <code>signal</code>，而网络请求B发起前 <code>wait</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 利用 semaphore 来控制</div><div class="line">   func gcd_line_request() &#123;</div><div class="line">       let semaphore = DispatchSemaphore.init(value: 0)</div><div class="line">       let group = DispatchGroup.init()</div><div class="line">       let queue = DispatchQueue.global()</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           self.networkRequest(sleepTime:1, closure: &#123;</div><div class="line">               print(&quot;1&quot;)</div><div class="line">               semaphore.signal()</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       queue.async(group: group) &#123;</div><div class="line">           semaphore.wait()</div><div class="line">           self.networkRequest(sleepTime:2, closure: &#123;</div><div class="line">               print(&quot;2&quot;)</div><div class="line">           &#125;)</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="顺便说说栅栏函数-dispatch-barrier-async"><a href="#顺便说说栅栏函数-dispatch-barrier-async" class="headerlink" title="顺便说说栅栏函数 dispatch_barrier_async"></a>顺便说说栅栏函数 dispatch_barrier_async</h3><p>这是可以在并行队列中插入一个操作，例如任务1234都是并行的，如果在代码中12和34插入<code>dispatch_barrier_async</code> 则可以保证 <code>dispatch_barrier_async</code> 中的内容在12后、34前执行。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func test() &#123;</div><div class="line">    let group = DispatchGroup.init()</div><div class="line">    let queue = DispatchQueue.init(label: &quot;xQ&quot;)</div><div class="line"></div><div class="line">    queue.async(group: group) &#123;</div><div class="line">        print(&quot;1 start&quot;)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    queue.async(group: group) &#123;</div><div class="line">        print(&quot;2 start&quot;)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    queue.async(group: group, flags: .barrier) &#123;</div><div class="line">        print(&quot;5 start&quot;)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    queue.async(group: group) &#123;</div><div class="line">        print(&quot;3 start&quot;)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    queue.async(group: group) &#123;</div><div class="line">        print(&quot;4 start&quot;)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里可以保证输出为 <code>12/21 5 34/43</code> 这样的顺序，5肯定夹在中间。<br>不过注意这里有个十分坑的地方：对于 <code>DispatchQueue.global()</code> 这个函数不起效！<br>在 swift 文档中并没有提到，我是在看 OC 文档中发现的解释，对 <code>DispatchQueue.global()</code> 不起效，仅相当于 <code>dispatch_async</code>，<code>dispatch_barrier_async</code> 只对自己创建的队列才生效。</p>
+<blockquote>
+<p>The queue you specify should be a concurrent queue that you create yourself using the dispatch_queue_create function. If the queue you pass to this function is a serial queue or one of the global concurrent queues, this function behaves like the dispatch_async function.</p>
+</blockquote>
+<p>最后说一句，swift3 中的 <code>GCD</code> 几乎全部换新，具体使用必须看官方文件。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2016/11/15/Quick-Touch/" data-toggle="tooltip" data-placement="top"
+                           title="Quick Touch - 在 iOS 设备运行的 "Touch Bar"">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#等待多个并发请求同步回调"><span class="toc-text">等待多个并发请求同步回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多个相关请求顺序执行"><span class="toc-text">多个相关请求顺序执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#顺便说说栅栏函数-dispatch-barrier-async"><span class="toc-text">顺便说说栅栏函数 dispatch_barrier_async</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#swift"
+                           title="swift">swift</a>
+                        
+                        <a class="tag" href="/tags/#网络请求"
+                           title="网络请求">网络请求</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tsui YuenHong 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.xurunkang.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-83299030-1';
+    var _gaDomain = 'xurunkang.cn';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-9-11/83615943.jpg">
+</body>
+
+</html>
