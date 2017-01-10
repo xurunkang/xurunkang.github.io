@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://ocnnxadky.bkt.clouddn.com/16-9-11/77312641.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Tsui YuenHong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ① ReactiveSwift 官方文档翻译｜Tsui YuenHong&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.xurunkang.cn/2017/01/10/RAC官文翻译1/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/55665824.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tsui YuenHong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/17-1-10/99349650-file_1484036752519_136aa.png">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/17-1-10/99349650-file_1484036752519_136aa.png');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>① ReactiveSwift 官方文档翻译</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2017-01-10
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/Tags/#ReactiveSwift"
+                           title="ReactiveSwift">ReactiveSwift</a>
+                        
+                        <a class="tag" href="/Tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ① ReactiveSwift 官方文档翻译
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>以下内容翻译自 ReactiveSwift 官方文档中的 Basic Operators 部分</p>
+</blockquote>
+<h2 id="Basic-Operators"><a href="#Basic-Operators" class="headerlink" title="Basic Operators"></a>Basic Operators</h2><p>本文解释了RAC中一些最常用的操作，并包括演示其用法的示例。<br>请注意到关于本文的“操作”指的是转换signals和signal producers的函数，并不是常用的swift基本操作。换句话说，这些是由RAC提供的用于处理事件流的可组合原语。</p>
+<h4 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h4><p><code>map</code> 用于转换事件流中的值，并用结果创建新流。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_mapping() -&gt; Void &#123;</div><div class="line">    let (signal, observer) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line"></div><div class="line">    signal</div><div class="line">        .map &#123; string in string.uppercased() &#125; // 小写转大写</div><div class="line">        .observeValues &#123; value in print(value) &#125;</div><div class="line"></div><div class="line">    observer.send(value: &quot;a&quot;)     // Print A</div><div class="line">    observer.send(value: &quot;b&quot;)     // Print B</div><div class="line">    observer.send(value: &quot;c&quot;)     // Print C</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-1-10/79392313-file_1484032812294_4e11.png" alt="map"></p>
+<h4 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h4><p><code>filter</code> 用于过滤不满足条件的值。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_filtering() -&gt; Void &#123;</div><div class="line">    let (signal, observer) = Signal&lt;Int, NoError&gt;.pipe()</div><div class="line"></div><div class="line">    signal</div><div class="line">        .filter &#123; number in number % 2 == 0 &#125; // 过滤某些值</div><div class="line">        .observeValues &#123; value in print(value) &#125;</div><div class="line"></div><div class="line">    observer.send(value: 1)     // Not printed</div><div class="line">    observer.send(value: 2)     // Prints 2</div><div class="line">    observer.send(value: 3)     // Not printed</div><div class="line">    observer.send(value: 4)     // prints 4</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-1-10/96842211-file_1484033009799_16925.png" alt="filter"></p>
+<h4 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h4><p><code>reduce</code> 用于事件流的值聚合为单个组合值，请注意到最终值仅仅在输入流完成后才发送。（个人理解即调用 <code>sendCompleted</code> 后才能 <code>observeValues</code>）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_reduce() -&gt; Void &#123;</div><div class="line">    let (signal, observer) = Signal&lt;Int, NoError&gt;.pipe()</div><div class="line"></div><div class="line">    signal</div><div class="line">        .reduce(1) &#123; $0 * $1 &#125;</div><div class="line">        .observeValues &#123; (value) in</div><div class="line">            print(value)&#125;</div><div class="line"></div><div class="line">    observer.send(value: 1)     // nothing printed</div><div class="line">    observer.send(value: 2)     // nothing printed</div><div class="line">    observer.send(value: 3)     // nothing printed</div><div class="line">    observer.sendCompleted()    // prints 6</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-1-10/56519057-file_1484033411784_16546.png" alt="reduce"></p>
+<h4 id="collect"><a href="#collect" class="headerlink" title="collect"></a>collect</h4><p><code>collect</code> 用于将事件流的值聚合为单个数组值，请注意到最终值仅仅在输入流完成后才发送。（个人理解即调用 <code>sendCompleted</code> 后才能 <code>observeValues</code>）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_collect() -&gt; Void &#123;</div><div class="line">    let (signal, observer) = Signal&lt;Int, NoError&gt;.pipe()</div><div class="line"></div><div class="line">    signal</div><div class="line">        .collect()</div><div class="line">        .observeValues &#123; value in print(value) &#125;</div><div class="line"></div><div class="line">    observer.send(value: 1)     // nothing printed</div><div class="line">    observer.send(value: 2)     // nothing printed</div><div class="line">    observer.send(value: 3)     // nothing printed</div><div class="line">    observer.sendCompleted()    // prints [1, 2, 3]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="CombineLatest"><a href="#CombineLatest" class="headerlink" title="CombineLatest"></a>CombineLatest</h4><p><code>combineLatest</code> 用于将两个（或多个）事件流组合为最新流，所得到的流将仅在每个输入都发送至少一个值之后才发送其第一次值。之后，任何输入上的新值将导致输出上的新值。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_combineLatest() -&gt; Void &#123;</div><div class="line">    let (numbersSignal, numbersObserver) = Signal&lt;Int, NoError&gt;.pipe()</div><div class="line">    let (lettersSignal, lettersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line"></div><div class="line">//        let signal = numbersSignal.combineLatest(with: lettersSignal)</div><div class="line">    let signal = Signal.combineLatest(numbersSignal, lettersSignal)</div><div class="line">    signal.observeValues &#123; next in print(&quot;Next: \(next)&quot;) &#125;</div><div class="line">    signal.observeCompleted &#123; print(&quot;Completed&quot;) &#125;</div><div class="line"></div><div class="line">    numbersObserver.send(value: 0)      // nothing printed</div><div class="line">    numbersObserver.send(value: 1)      // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;A&quot;)    // prints (1, A)</div><div class="line">    numbersObserver.send(value: 2)      // prints (2, A)</div><div class="line">    numbersObserver.sendCompleted()     // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;B&quot;)    // prints (2, B)</div><div class="line">    lettersObserver.send(value: &quot;C&quot;)    // prints (2, C)</div><div class="line">    lettersObserver.sendCompleted()     // prints &quot;Completed&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-1-10/22690670-file_1484033805849_184f8.png" alt="combineLatest"></p>
+<h4 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h4><p><code>zip</code> 成对地连接两个（或多个）事件流的值，即多个输入流第N个元组的元素对应于输入流的第N个元素，这意味着在每个输入发送至少N个值之前，不能发送输出流的第N个值。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_zipping() -&gt; Void &#123;</div><div class="line">    let (numbersSignal, numbersObserver) = Signal&lt;Int, NoError&gt;.pipe()</div><div class="line">    let (lettersSignal, lettersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line"></div><div class="line">//        let signal = numbersSignal.zip(with: lettersSignal)</div><div class="line">    let signal = Signal.zip(numbersSignal, lettersSignal)</div><div class="line">    signal.observeValues &#123; next in print(&quot;Next: \(next)&quot;) &#125;</div><div class="line">    signal.observeCompleted &#123; print(&quot;Completed&quot;) &#125;</div><div class="line"></div><div class="line">    numbersObserver.send(value: 0)      // nothing printed</div><div class="line">    numbersObserver.send(value: 1)      // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;A&quot;)    // prints (0, A)</div><div class="line">    numbersObserver.send(value: 2)      // nothing printed</div><div class="line">    numbersObserver.sendCompleted()  // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;B&quot;)    // prints (1, B)</div><div class="line">    lettersObserver.send(value: &quot;C&quot;)    // prints (2, C) &amp; &quot;Completed&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-1-10/60151145-file_1484033964870_ce6d.png" alt="zip"></p>
+<h4 id="Flatten"><a href="#Flatten" class="headerlink" title="Flatten"></a>Flatten</h4><h5 id="Merge"><a href="#Merge" class="headerlink" title=".Merge"></a>.Merge</h5><p><code>.merge</code> 策略会立即将内部事件流的每个值转发到外部事件流，在外部事件流或任何内部事件流上发送的任何错误都会将立即在 <code>flatten</code> 事件流上发送，并且会终止 <code>flatten</code> 事件流。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_merge() -&gt; Void &#123;</div><div class="line">    let (lettersSignal, lettersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line">    let (numbersSignal, numbersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line">    let (signal, observer) = Signal&lt;Signal&lt;String, NoError&gt;, NoError&gt;.pipe()</div><div class="line"></div><div class="line">    signal.flatten(.merge).observeValues &#123; print($0) &#125;</div><div class="line"></div><div class="line">    observer.send(value: lettersSignal)</div><div class="line">    observer.send(value: numbersSignal)</div><div class="line">    observer.sendCompleted()</div><div class="line"></div><div class="line">    lettersObserver.send(value: &quot;a&quot;)    // prints &quot;a&quot;</div><div class="line">    numbersObserver.send(value: &quot;1&quot;)    // prints &quot;1&quot;</div><div class="line">    lettersObserver.send(value: &quot;b&quot;)    // prints &quot;b&quot;</div><div class="line">    numbersObserver.send(value: &quot;2&quot;)    // prints &quot;2&quot;</div><div class="line">    lettersObserver.send(value: &quot;c&quot;)    // prints &quot;c&quot;</div><div class="line">    numbersObserver.send(value: &quot;3&quot;)    // prints &quot;3&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-1-10/78083917-file_1484034216198_4a16.png" alt="flatten(.merge)"></p>
+<h5 id="Concat"><a href="#Concat" class="headerlink" title=".Concat"></a>.Concat</h5><p><code>.merge</code> 策略会序列化内部事件流，按顺序执行 <code>send</code> 进来的事件流，后一个事件流必须等待前一个事件流的完成才开始执行。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_concat() -&gt; Void &#123;</div><div class="line">    let (lettersSignal, lettersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line">    let (numbersSignal, numbersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line">    let (signal, observer) = Signal&lt;Signal&lt;String, NoError&gt;, NoError&gt;.pipe()</div><div class="line"></div><div class="line">    signal.flatten(.concat).observeValues &#123; print($0) &#125;</div><div class="line"></div><div class="line">    observer.send(value: lettersSignal)</div><div class="line">    observer.send(value: numbersSignal)</div><div class="line">    observer.sendCompleted()</div><div class="line"></div><div class="line">    numbersObserver.send(value: &quot;1&quot;)    // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;a&quot;)    // prints &quot;a&quot;</div><div class="line">    lettersObserver.send(value: &quot;b&quot;)    // prints &quot;b&quot;</div><div class="line">    numbersObserver.send(value: &quot;2&quot;)    // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;c&quot;)    // prints &quot;c&quot;</div><div class="line">    lettersObserver.sendCompleted()     // prints &quot;1, 2&quot;</div><div class="line">    numbersObserver.send(value: &quot;3&quot;)    // prints &quot;3&quot;</div><div class="line">    numbersObserver.sendCompleted()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-1-10/62995263-file_1484034454126_1103a.png" alt="flatten(.concat)"></p>
+<h5 id="latest"><a href="#latest" class="headerlink" title=".latest"></a>.latest</h5><p><code>.latest</code> 策略仅从最新输入事件流转发值或错误。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_latest() -&gt; Void &#123;</div><div class="line">    let (lettersSignal, lettersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line">    let (numbersSignal, numbersObserver) = Signal&lt;String, NoError&gt;.pipe()</div><div class="line">    let (signal, observer) = Signal&lt;Signal&lt;String, NoError&gt;, NoError&gt;.pipe()</div><div class="line"></div><div class="line">    signal.flatten(.latest).observeValues &#123; print($0) &#125;</div><div class="line"></div><div class="line">    observer.send(value: lettersSignal) // nothing printed</div><div class="line">    numbersObserver.send(value: &quot;1&quot;)    // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;a&quot;)    // prints &quot;a&quot;</div><div class="line">    lettersObserver.send(value: &quot;b&quot;)    // prints &quot;b&quot;</div><div class="line">    numbersObserver.send(value: &quot;2&quot;)    // nothing printed</div><div class="line">    observer.send(value: numbersSignal) // nothing printed</div><div class="line">    lettersObserver.send(value: &quot;c&quot;)    // nothing printed</div><div class="line">    numbersObserver.send(value: &quot;3&quot;)    // prints &quot;3&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="FlatMapError"><a href="#FlatMapError" class="headerlink" title="FlatMapError"></a>FlatMapError</h4><p><code>flatMapError</code> 可以捕获可能在输入事件流上发生的任何失败，然后再开启一个新的 <code>SignalProducer</code>。（以下代码与官方文档不同，做了些许修改，个人觉得更好体现 <code>flatMapError</code> 的作用）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_flatMapError() -&gt; Void &#123;</div><div class="line">    let (signal, observer) = Signal&lt;String, NSError&gt;.pipe()</div><div class="line">    let producer = SignalProducer(signal)</div><div class="line"></div><div class="line">    let error = NSError(domain: &quot;domain&quot;, code: 2, userInfo: nil)</div><div class="line"></div><div class="line">    producer</div><div class="line">        .flatMapError &#123; (err) -&gt; SignalProducer&lt;String, NoError&gt; in</div><div class="line">            switch err.code &#123;</div><div class="line">            case 0:</div><div class="line">                print(&quot;code is 0&quot;)</div><div class="line">                return SignalProducer&lt;String, NoError&gt;(value:&quot;code is 0&quot;)</div><div class="line"></div><div class="line">            default:</div><div class="line">                return SignalProducer&lt;String, NoError&gt;(value:&quot;code is unknow&quot;)</div><div class="line">            &#125;&#125;</div><div class="line">        .startWithValues &#123; (value) in</div><div class="line">            print(value)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    observer.send(value: &quot;First&quot;)     // prints &quot;First&quot;</div><div class="line">    observer.send(value: &quot;Second&quot;)    // prints &quot;Second&quot;</div><div class="line">    observer.send(error: error)       // prints &quot;code is unknow&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="MapError"><a href="#MapError" class="headerlink" title="MapError"></a>MapError</h4><p><code>mapError</code> 将事件流中的任何错误转换为新错误。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func rac_mapError() -&gt; Void &#123;</div><div class="line">    enum CustomError: String, Error &#123;</div><div class="line">        case foo = &quot;Foo Error&quot;</div><div class="line">        case bar = &quot;Bar Error&quot;</div><div class="line">        case other = &quot;Other Error&quot;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    let (signal, observer) = Signal&lt;String, NSError&gt;.pipe()</div><div class="line"></div><div class="line">    signal</div><div class="line">        .mapError &#123; (error: NSError) -&gt; CustomError in</div><div class="line">            switch error.domain &#123;</div><div class="line">            case &quot;com.example.foo&quot;:</div><div class="line">                return .foo</div><div class="line">            case &quot;com.example.bar&quot;:</div><div class="line">                return .bar</div><div class="line">            default:</div><div class="line">                return .other</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        .observeFailed &#123; error in</div><div class="line">            print(error.rawValue)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    observer.send(error: NSError(domain: &quot;com.example.foo&quot;, code: 42, userInfo: nil))    // prints &quot;Foo Error&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>RAC 官方原文还有 <code>Promote</code>、<code>Retrying</code>、<code>SignalProducer.attempt(_:)</code> 这几个基本操作，但是这里木有介绍，可以在 <a href="http://reactivecocoa.io/reactiveswift/docs/latest/basicoperators.html" target="_blank" rel="external">ReactiveSwift 文档</a> 查看详细用法，以上所有图片均源自 ReactiveSwift 文档。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2017/01/09/关于多个网络请求同步的一些总结/" data-toggle="tooltip" data-placement="top"
+                           title="关于多个网络请求同步的一些总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-Operators"><span class="toc-text">Basic Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Map"><span class="toc-text">Map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filter"><span class="toc-text">Filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reduce"><span class="toc-text">Reduce</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#collect"><span class="toc-text">collect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CombineLatest"><span class="toc-text">CombineLatest</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Zip"><span class="toc-text">Zip</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Flatten"><span class="toc-text">Flatten</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Merge"><span class="toc-text">.Merge</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Concat"><span class="toc-text">.Concat</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#latest"><span class="toc-text">.latest</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FlatMapError"><span class="toc-text">FlatMapError</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MapError"><span class="toc-text">MapError</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ReactiveSwift"
+                           title="ReactiveSwift">ReactiveSwift</a>
+                        
+                        <a class="tag" href="/tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tsui YuenHong 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.xurunkang.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-83299030-1';
+    var _gaDomain = 'xurunkang.cn';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-9-11/83615943.jpg">
+</body>
+
+</html>
