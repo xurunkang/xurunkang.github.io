@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://ocnnxadky.bkt.clouddn.com/16-9-11/77312641.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Tsui YuenHong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        记录一次失败的“利用私有API开发过程”｜Tsui YuenHong&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.xurunkang.cn/2017/02/07/记录一次失败的“利用私有API开发过程”/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/55665824.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tsui YuenHong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/17-2-7/94665823-file_1486480202599_f4a0.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/17-2-7/94665823-file_1486480202599_f4a0.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>记录一次失败的“利用私有API开发过程”</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2017-02-07
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            记录一次失败的“利用私有API开发过程”
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>因为一次一次地终结 APP 很麻烦（虽然 iOS 不用手动终结，但是看得不舒服），所以想开发一个一键终结所有 APP 的工具（之前越狱用习惯了）。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>寻找有用的私有 API（<a href="https://github.com/JaviSoto/iOS10-Runtime-Headers" target="_blank" rel="external">github 地址</a>），经过搜索和思考，发现了合适的方法。</p>
+<p><code>BackBoardServices.framework</code> 中的<code>BKSSystemService.h</code> 有这两个方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">- (void)terminateApplication:(id)arg1 forReason:(int)arg2 andReport:(bool)arg3 withDescription:(id)arg4;</div><div class="line">- (void)terminateApplicationGroup:(int)arg1 forReason:(int)arg2 andReport:(bool)arg3 withDescription:(id)arg4;</div></pre></td></tr></table></figure>
+<p>OK，开始猜想，参数是什么。<br>显然，除了第一个参数，其余三个参数都能顾名思义地知道什么意思。<br>那终结一个指定的 APP 肯定需要知道这个 APP 的唯一标识符 bundle id。那就猜想第一个参数是 bundle id 的意思。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>利用 <code>runtime</code> 调用私有 API。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Class class_BKSSystemService = objc_getClass(&quot;BKSSystemService&quot;);</div><div class="line">  NSObject *bksSS = [[class_BKSSystemService alloc] init];</div><div class="line"></div><div class="line">  /*</div><div class="line">  该私有 API 含有2个以上参数，不可以使用以下方法调用</div><div class="line"></div><div class="line">  if ([bksSS respondsToSelector:@selector(terminateApplication: forReason: andReport: withDescription:)]) &#123;</div><div class="line">      [bksSS performSelector:@selector(terminateApplication: forReason: andReport: withDescription:) withObject:nil];</div><div class="line">  &#125;</div><div class="line">  */</div></pre></td></tr></table></figure>
+<p>如注释，不能通过 <code>performSelector</code> 来调用私有方法。</p>
+<p>那就利用 <code>NSInvocation</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 判断是否存在方法</div><div class="line">if ([[bksSS class] instancesRespondToSelector:@selector(terminateApplication: forReason: andReport: withDescription:)]) &#123;</div><div class="line">    // 获取方法签名</div><div class="line">    NSMethodSignature *signature = [[bksSS class] instanceMethodSignatureForSelector:@selector(terminateApplication: forReason: andReport: withDescription:)];</div><div class="line"></div><div class="line">    // 包装方法</div><div class="line">    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];</div><div class="line">    [invocation setTarget:bksSS];</div><div class="line">    [invocation setSelector:@selector(terminateApplication: forReason: andReport: withDescription:)];</div><div class="line"></div><div class="line">    // 设置参数</div><div class="line">    CFStringRef appBundleID = (__bridge CFStringRef)bundleID;</div><div class="line">    int reason = 0;</div><div class="line">    bool report = NO;</div><div class="line">    id description = NULL;</div><div class="line"></div><div class="line">    [invocation setArgument:&amp;appBundleID atIndex:2];</div><div class="line">    [invocation setArgument:&amp;reason atIndex:3];</div><div class="line">    [invocation setArgument:&amp;report atIndex:4];</div><div class="line">    [invocation setArgument:&amp;description atIndex:5];</div><div class="line">    [invocation retainArguments];</div><div class="line"></div><div class="line">    [invocation invoke];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>上面代码 bundleID 换为本项目的 bundle id，发现无效，google 一下发现还需要权限。<br>Xcode 新增 plist 文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</div><div class="line">&lt;plist version=&quot;1.0&quot;&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">	&lt;key&gt;com.apple.multitasking.termination&lt;/key&gt;</div><div class="line">	&lt;true/&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;/plist&gt;</div></pre></td></tr></table></figure>
+<p>在 Build Settings -&gt; Code Signing Entitlements 中加入这个 plist 路径。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-7/25470018-file_1486479430664_184d0.png" alt=""></p>
+<p>咦~ 的确可以终结当前 APP 喔。</p>
+<h2 id="完善"><a href="#完善" class="headerlink" title="完善"></a>完善</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">/**</div><div class="line"> 获取全部 APP 的 bundle id</div><div class="line"> 注意 ： 该方法过滤掉含有 apple 的 bundle id</div><div class="line"></div><div class="line"> @return bundle ids</div><div class="line"> */</div><div class="line">- (NSArray *)getAllApplicationBundleIDs&#123;</div><div class="line"></div><div class="line">    // 获取全部 app</div><div class="line">    Class LSApplicationWorkspace_class = objc_getClass(&quot;LSApplicationWorkspace&quot;);</div><div class="line">    NSObject *workspace = [LSApplicationWorkspace_class performSelector:@selector(defaultWorkspace)];</div><div class="line">    NSArray *allApps = [workspace performSelector:@selector(allApplications)];</div><div class="line"></div><div class="line">    // 枚举遍历获取 bundle id</div><div class="line">    NSMutableArray *allBundleIDs = [NSMutableArray array];</div><div class="line">    [allApps enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;</div><div class="line">        NSString *bundleID = [obj performSelector:@selector(bundleIdentifier)];</div><div class="line">        if (![bundleID containsString:@&quot;apple&quot;]) &#123;</div><div class="line">            [allBundleIDs addObject:bundleID];</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    return allBundleIDs;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用过程：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">NSArray *allBundleIDs = [self getAllApplicationBundleIDs];</div><div class="line">[allBundleIDs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;</div><div class="line">    [self killAPPWithBundleID:obj];</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<p>到目前为止，<strong>模拟器</strong>都是可以成功使用的。</p>
+<h2 id="真机调试"><a href="#真机调试" class="headerlink" title="真机调试"></a>真机调试</h2><p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-7/82104893-file_1486479873467_11f1c.png" alt="悲催来了"></p>
+<p>google 发现，未越狱不能获取这个权限。</p>
+<p>虽然是失败的尝试，起码也复习下私有 API 的调用。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2017/01/10/RAC官文翻译1/" data-toggle="tooltip" data-placement="top"
+                           title="① ReactiveSwift 官方文档翻译">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始"><span class="toc-text">开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证"><span class="toc-text">验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完善"><span class="toc-text">完善</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#真机调试"><span class="toc-text">真机调试</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tsui YuenHong 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.xurunkang.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-83299030-1';
+    var _gaDomain = 'xurunkang.cn';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-9-11/83615943.jpg">
+</body>
+
+</html>
