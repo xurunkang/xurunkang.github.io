@@ -172,7 +172,7 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h1 id="block-循环引用的例子"><a href="#block-循环引用的例子" class="headerlink" title="block 循环引用的例子"></a>block 循环引用的例子</h1><p>先介绍一下这个 demo：有两个 <code>view</code>，从第一个 <code>view</code> 可以点击 <code>button</code> <code>push</code> 到第二个 <code>view</code> 中，并且我在第二个 <code>view</code> 中的方法 <code>- (void)viewWillDisappear:(BOOL)animated</code> 和 <code>- (void)dealloc</code> 打印某句话来检测该方法是否被执行。</p>
+                <h1 id="block-循环引用的例子"><a href="#block-循环引用的例子" class="headerlink" title="block 循环引用的例子"></a>block 循环引用的例子</h1><p>先介绍一下这个 demo ( <a href="https://github.com/xurunkang/SampleCode/tree/master/BlockDemo" target="_blank" rel="external">github 地址</a> )：有两个 <code>view</code>，从第一个 <code>view</code> 可以点击 <code>button</code> <code>push</code> 到第二个 <code>view</code> 中，并且我在第二个 <code>view</code> 中的方法 <code>- (void)viewWillDisappear:(BOOL)animated</code> 和 <code>- (void)dealloc</code> 打印某句话来检测该方法是否被执行。</p>
 <p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/22465816-file_1488247235403_18536.png" alt=""></p>
 <p>显然，上图会出现循环引用，导致第二个 view 无法释放。</p>
 <p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/15525236-file_1488248081262_13e78.png" alt="控制台输出"></p>
