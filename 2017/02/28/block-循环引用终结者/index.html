@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        关于 dispatch_main_async_safe｜Tsui YuenHong&#39;s Blog
+        block 循环引用终结者｜Tsui YuenHong&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.xurunkang.cn/2017/02/10/关于-dispatch-main-async-safe/">
+    <link rel="canonical" href="http://www.xurunkang.cn/2017/02/28/block-循环引用终结者/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -141,12 +141,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>关于 dispatch_main_async_safe</h1>
+                    <h1>block 循环引用终结者</h1>
                     
                     <span class="meta">
                          作者 Tsui YuenHong
                         <span>
-                          日期 2017-02-10
+                          日期 2017-02-28
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -161,7 +161,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            关于 dispatch_main_async_safe
+            block 循环引用终结者
         </span>
     </div>
 </header>
@@ -172,40 +172,41 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>最近在阅读 SDWebImage 的源码，发现了这段有趣的代码。</p>
-<p>最新代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#ifndef dispatch_main_async_safe</div><div class="line">#define dispatch_main_async_safe(block)\</div><div class="line">    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) &#123;\</div><div class="line">        block();\</div><div class="line">    &#125; else &#123;\</div><div class="line">        dispatch_async(dispatch_get_main_queue(), block);\</div><div class="line">    &#125;</div><div class="line">#endif</div></pre></td></tr></table></figure>
-<p>之前的代码，而且这是网上流传最多的代码。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#define dispatch_main_async_safe(block)\</div><div class="line">    if ([NSThread isMainThread]) &#123;\</div><div class="line">        block();\</div><div class="line">    &#125; else &#123;\</div><div class="line">        dispatch_async(dispatch_get_main_queue(), block);\</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>对比两段代码可以发现前者有两个地方改变了，一是多了 <code>#ifndef</code>，二是判断条件改变了。</p>
-<p>显然，增加 <code>#ifndef</code> 是为了提高代码的严谨，防止重复定义 <code>dispatch_main_async_safe</code>。</p>
-<p>关于判断条件的改变的原因则是复杂得多了，具体可以阅读 <a href="http://blog.benjamin-encz.de/post/main-queue-vs-main-thread" target="_blank" rel="external">GCD’s Main Queue vs. Main Thread</a>。</p>
-<p>原文这样说道：</p>
-<blockquote>
-<p>Calling an API from a non-main queue that is executing on the main thread will lead to issues if the library (like VektorKit) relies on checking for execution on the main queue.</p>
-</blockquote>
-<p>意思大概是如果在<strong>主线程</strong>执行<strong>非主队列</strong>调度的API，而这个API需要检查是否由<strong>主队列上</strong>调度，那么将会出现问题。</p>
-<p>SDWebImage 就是从判断<strong>是否在主线程执行</strong>改为判断<strong>是否由主队列上调度</strong>。而由于<strong>主队列是一个串行队列</strong>，无论任务是异步同步都不会开辟新线程，所以<strong>当前队列是主队列等价于当前在主线程上执行</strong>。可以这样说，<strong>在主队列调度的任务肯定在主线程执行，而在主线程执行的任务不一定是由主队列调度的。</strong></p>
-<p>参考资料</p>
-<ol>
-<li><a href="https://github.com/rs/SDWebImage/pull/781" target="_blank" rel="external">SDWebImage 官方解释</a></li>
-<li><a href="http://blog.benjamin-encz.de/post/main-queue-vs-main-thread" target="_blank" rel="external">GCD’s Main Queue vs. Main Thread</a></li>
-</ol>
+                <h1 id="block-循环引用的例子"><a href="#block-循环引用的例子" class="headerlink" title="block 循环引用的例子"></a>block 循环引用的例子</h1><p>先介绍一下这个 demo：有两个 <code>view</code>，从第一个 <code>view</code> 可以点击 <code>button</code> <code>push</code> 到第二个 <code>view</code> 中，并且我在第二个 <code>view</code> 中的方法 <code>- (void)viewWillDisappear:(BOOL)animated</code> 和 <code>- (void)dealloc</code> 打印某句话来检测该方法是否被执行。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/22465816-file_1488247235403_18536.png" alt=""></p>
+<p>显然，上图会出现循环引用，导致第二个 view 无法释放。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/15525236-file_1488248081262_13e78.png" alt="控制台输出"></p>
+<p>控制台的输出也证实了这点，<code>- (void)dealloc</code> 并没有被执行。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/26681784-file_1488247944638_af3e.png" alt=""></p>
+<p>它们之间的持有关系是这样的，<code>self</code> 持有 <code>_testClass</code>，而 <code>_testClass</code> 持有的 <code>block</code> 又通过持有 <code>self</code> 来捕捉变量 <code>_kkString</code>。这就导致了 <code>block</code> 的循环引用。</p>
+<h1 id="打破-block-循环引用的常规做法"><a href="#打破-block-循环引用的常规做法" class="headerlink" title="打破 block 循环引用的常规做法"></a>打破 block 循环引用的常规做法</h1><p>打破 <code>block</code> 的常规做法就是 <code>weak/strong dance</code>，而且还要 <code>block</code> 里面对 <code>wSelf</code> 判空。具体请看例子。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/74698703-file_1488248264284_7481.png" alt=""></p>
+<p>如图，<code>weak/strong dance</code> 就是在 <code>block</code> 前加上 <code>__weak typeof(self) wSelf = self;</code>，而 <code>block</code> 里面再加上 <code>__strong typeof(self) sSelf = wSelf;</code>，并且注意到有时候还要要对 <code>wSelf</code>或者<code>sSelf</code> 判空，甚至还要出现多次判空的操作，<code>SDWebImage</code> 中就有相应的例子。</p>
+<h2 id="为什么要对-wSelf-判空"><a href="#为什么要对-wSelf-判空" class="headerlink" title="为什么要对 wSelf 判空"></a>为什么要对 wSelf 判空</h2><p>因为这是 block 的回调并不是马上执行，而是我延时 5 秒后执行，假设这 5 秒内我返回到前一页，当前的 <code>self</code> 就会被释放掉，下面的 <code>_kkString</code> 也会变为 <code>nil</code>，而向字典传 <code>nil</code> 会导致 <code>crash</code>，所以在 <code>block</code> 里面必须对 <code>self</code> 操作必须判空。当然，如果是方法的调用你不判空也没问题，因为对 <code>nil</code> 对象发送消息并不会导致 <code>crash</code>。</p>
+<h2 id="为什么要调用-strong-typeof-self-sSelf-wSelf"><a href="#为什么要调用-strong-typeof-self-sSelf-wSelf" class="headerlink" title="为什么要调用 __strong typeof(self) sSelf = wSelf"></a>为什么要调用 <code>__strong typeof(self) sSelf = wSelf</code></h2><p>简单来说就是防止在执行 <code>block</code> 里面的操作时，<code>self</code> 被释放掉。同样，可以看到截图中，假设不调用<code>__strong typeof(self) sSelf = wSelf</code>，并且在 <code>block</code> 里面做一个循环 100000 次的操作，在这个操作的过程中返回到前一个 <code>view</code>，此时 <code>self</code> 被释放，循环操作里面还有对 <code>_kkString</code> 的引用，这同样会导致 <code>crash</code>。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/17148826-file_1488250538843_48ef.png" alt="控制台输出"></p>
+<p>控制台输出也证实这样不会导致循环引用。</p>
+<p>虽然说 <code>weak/strong dance</code> 可以解决循环引用，但处理起来也是比较麻烦，那有没有一种简单的方法可以处理好 <code>block</code> 呢？</p>
+<h1 id="POP-的做法"><a href="#POP-的做法" class="headerlink" title="POP 的做法"></a>POP 的做法</h1><p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/44001103-file_1488250811746_1236b.png" alt="pop/POPAnimation.h"></p>
+<p>其实一看这个 <code>target</code> 是很多余的，<code>block</code> 明明可以捕获上下文，为什么还要传 <code>target</code> 呢？</p>
+<p><code>block</code> 不会引用参数，那如果把 <code>self</code> 作为参数传入 <code>block</code>，再在原文中调用 <code>target</code>，这就把我们需要管理的释放交由系统处理。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/92431624-file_1488251418630_122b1.png" alt=""></p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/35576755-file_1488251483440_3186.png" alt=""></p>
+<p>传入 <code>self</code> 作为 <code>target</code>，而此时 <code>block</code> 再将 <code>target</code> 传出。当然，如果你 <code>block</code> 内不调用 <code>target</code> 的，可以传 <code>nil</code> 作为 <code>targer</code>。而回调操作如果要使用 <code>self</code> 则使用 <code>target</code> 代替。</p>
+<p>P.S. 在和 bestswifter 讨论后才知道 iOS 程序猿也曾提过相应的做法，<a href="https://github.com/ChenYilong/iOSBlog/blob/master/Tips/Heap-Stack%20Dance/Heap-Stack%20Dance.md" target="_blank" rel="external">使用 Heap-Stack Dance 替代 Weak-Strong Dance，优雅避开循环引用</a>。</p>
+<p>当然这种做法也有缺陷，就是会 <strong>延长对象的生命周期</strong>，就如刚刚的例子，假设我在 5 秒内返回到前一个 view，第二个 view 并不会像使用了 <code>weak/strong dance</code> 做法那样立刻释放掉，而是等 <code>block</code> 里面操作执行完再释放。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-2-28/98839773-file_1488252283738_1675b.png" alt="控制台输出"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>实践出真知，关于使用 <code>weak/strong dance</code> 或使 <code>POP</code> 的做法，就是看实际情况。</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/ 2017/02/28/block-循环引用终结者/" data-toggle="tooltip" data-placement="top"
-                           title="block 循环引用终结者">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/ 2017/02/07/记录一次失败的“利用私有API开发过程”/" data-toggle="tooltip" data-placement="top"
-                           title="记录一次失败的“利用私有API开发过程”">Next Post &rarr;</a>
+                        <a href="/ 2017/02/10/关于-dispatch-main-async-safe/" data-toggle="tooltip" data-placement="top"
+                           title="关于 dispatch_main_async_safe">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -218,7 +219,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#block-循环引用的例子"><span class="toc-text">block 循环引用的例子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#打破-block-循环引用的常规做法"><span class="toc-text">打破 block 循环引用的常规做法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要对-wSelf-判空"><span class="toc-text">为什么要对 wSelf 判空</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要调用-strong-typeof-self-sSelf-wSelf"><span class="toc-text">为什么要调用 __strong typeof(self) sSelf = wSelf</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#POP-的做法"><span class="toc-text">POP 的做法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
                 </div>
             </div>
         </div>
