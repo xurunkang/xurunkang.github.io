@@ -1,0 +1,159 @@
+{
+  "data_lang": "zh-CN",
+  "ga_id": "UA-63818301-2",
+  "resume_title": "徐润康 - 个人简历",
+  "name": "徐润康",
+  "job_description": ["iOS 开发工程师"],
+  "contact": {
+    "email": "625927650@qq.com",
+    "wechat": {
+      "id": "15602322135",
+      "qrcode": "static/wechat.png"
+    },
+    "github": {
+      "id": "xurunkang"
+    },
+    "blog": {
+      "url": "http://www.xrk.space"
+    }
+  },
+  "links": [],
+
+  "education": [{
+      "type": "undergraduate",
+      "name": "广东工业大学",
+      "major": "软件工程",
+      "start": "2014",
+      "end": "2018",
+      "honor": [
+        "2014 - 2015 学年度校**二等奖学金**",
+        "2015 - 2016 学年度校**二等奖学金**",
+        "已通过`CET-6`，科学上网，熟练使用 Google 进行中英文检索，能流畅阅读 Apple 官方文档"
+      ]
+    }],
+  "experience": [
+  {
+    "type": "internship",
+    "techtype": "iOS",
+    "place": "TopView 工作室",
+    "start": "2016-6",
+    "end": "至今",
+    "name": "优校云项目维护",
+    "description": [
+      "在个别模块尝试利用 `RAC` + `MVVM` 为项目解耦",
+      "使用 `JSPatch` 来提高用户体验，曾利用其修改如数组越界、UI 错误以及后台数据返回错误的 BUG ",
+      "使用 ` Time Profiler 优化 `聊天界面，增快打开速度",
+      "使用 `Leaks` 和 `FBRetainCycleDetector` 检测项目中存在的循环引用",
+      "管理 `App Store` 以及 `企业平台` 的分发，能根据被拒条件及时修改项目来尽早上线",
+      "通过 `自动化打包脚本` 来维护 10 余所学校的不同管理，打包时间缩短 `80%`",
+      "下载地址 : https://appsto.re/cn/M1U9fb.i"
+    ],
+    "stack": ["iOS", "Objective", "SDWebImage", "MWPhotoBrowser"]
+  },
+
+  {
+    "type": "project",
+    "techtype": "iOS",
+    "project_type": "personal",
+    "name": "Quick Touch",
+    "source": "https://github.com/xurunkang/QuickTouch",
+    "description": [
+      "QuickTouch 是我个人开发的小项目，主要功能是利用 iPhone 在局域网内控制 MacBook，如锁屏、亮度调节和音量，同时，iPhone 上会显示 MacBook 上运行的 App 来提供一些 workflow",
+      "主要是利用 `GcdAsyncSocket` 来构建 iPhone 和 MacBook 间的通讯，当时也曾考虑蓝牙实现功能，但发现配对率不高以及范围较小而转用 socket",
+      "学习并利用常用第三方库，如 Mantle、Masonry 等",
+      "项目中包括 iOS 端以及 Mac 端"
+    ],
+    "stack": ["iOS", "Objective-C"]
+  },
+
+  {
+    "type": "internship",
+    "techtype": "iOS",
+    "place": "协同工作室",
+    "start": "2015-6",
+    "end": "2016-5",
+    "name": "学习 iOS",
+    "description": [
+      "和组员一起系统地了解并学习 iOS",
+      "了解并学习 `iOS 逆向工程`、了解 `class-dump`、`Hooper Disassembler` 和`重签名技术`，尝试并`成功逆向阻止 QQ 撤回`",
+      "设计并编程实现广工校园通，通过模拟登陆并使用 TFHpple 解析 HTML 来获取成绩和课程表等，并学习利用 TensorFlow 和 GPUImage 来尽可能达到免验证登录（失败告终，成功率过低）"
+    ],
+    "stack": ["iOS", "Objective", "SDWebImage", "MWPhotoBrowser"]
+  }
+
+  ],
+
+  "language": [{
+    "type": "english",
+    "certificate": [{
+      "type": "CET-4",
+      "full": "600",
+      "score": "533"
+    }, {
+      "type": "CET-6",
+      "full": "600",
+      "score": "441"
+    }],
+    "description": [
+      "科学上网，熟练使用 Google 进行中英文检索，能自行解决大部分问题",
+      "流畅阅读 Apple 官方文档，能基本看懂 WWDC ",
+      "能够在 Stack Overflow、Github 等社区正常地使用英文交流"
+    ]
+  }],
+
+  "skills": [{
+    "type": "frontend",
+    "item": [{
+      "summary": "`Objective-C`",
+      "description": [
+        "熟练使用 `Objective-C` 编写 `iOS `应用",
+        "掌握使用 `Xib` 以及 `Storyboard` 进行 UI 上的编写，当然也会使用一些开源的框架类似 `Masonry` 和 `SDAutoLayout` 来进行约束的代码配置，具体使用针对实际情景",
+        "对 `Objective-C` 内存管理机制，Runtime、Block、GCD、Runloop 等有一定了解",
+        "熟练使用系统相关API，熟练使用 `UIKit` 搭建 iOS 应用",
+        "良好的编码习惯，读过`《Effective Objective-C 2.0》` 和 `《Objective-C 高级编程》`，懂得如何写出比较优雅的 `Objective-C` 代码"
+        ]
+    },{
+        "summary": "`Swift`",
+        "description": [
+          "学习并尝试使用 Swift",
+          "利用 Swift 编写优校云上传工具",
+          "在一些小 demo 的开发尽量偏向 Swift，以及以后学习重点将会放在 Swift 中"
+        ]
+      },
+    {
+      "summary": "`Xcode`",
+      "description": [
+        "掌握使用 `Instruments` 进行内存、效率相关的调试，掌握基本的利用 `Xcode` 的调试技巧",
+        "理解并熟练掌握应用发布流程、证书机制"
+      ]
+    },
+    {
+      "summary": "` iOS 项目第三方框架`",
+      "description": [
+        "在项目中习惯使用 `CocoaPods` 完成第三方依赖，当然也会使用 `Carthage`",
+        "在项目中使用过 AFNetworking、SDWebImage、Masonry、Mantle、ReactiveCocoa 等第三方 Objective-C 库",
+        "在 demo 中使用过 Alamofire、SwiftyJSON、Vapor 等第三方 Swift 库",
+        "使用第三方 API 时会注意在`外面封装一层方便日后变更而不影响自身业务代码逻辑`，编写公共模块时会注意适当的接口暴露"
+      ]
+    }]
+  },
+  {
+    "type": "backend",
+    "item": [{
+      "summary": "`Git & SVN`",
+      "description": [
+        "熟练使用 git 基本命令，了解团队开发相关 git 使用流程",
+        "熟练使用 Source Tree 图形化 Git 工具",
+        "熟练使用 Cornerstone 图片化 SVN 工具"
+      ]
+    },
+    {
+      "summary": "`其他`",
+      "description": [
+        "两年 `Mac` 使用经验，熟悉常用命令与配置，熟练使用命令行",
+        "有写`技术博客`的习惯",
+        "会关注圈内知名技术人员的博客，经常阅读掘金、简书等平台获取新知识"
+      ]
+    }]
+  }]
+}
