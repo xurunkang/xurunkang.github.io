@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://ocnnxadky.bkt.clouddn.com/16-9-11/77312641.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Tsui YuenHong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        非越狱 QQ 逆向历险记｜Tsui YuenHong&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.xurunkang.cn/2017/03/05/非越狱-QQ-逆向历险记/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-9-11/55665824.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Tsui YuenHong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-10-31/91330807.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-10-31/91330807.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>非越狱 QQ 逆向历险记</h1>
+                    
+                    <span class="meta">
+                         作者 Tsui YuenHong
+                        <span>
+                          日期 2017-03-05
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/Tags/#逆向"
+                           title="逆向">逆向</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            非越狱 QQ 逆向历险记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="Long-Long-Ago"><a href="#Long-Long-Ago" class="headerlink" title="Long Long Ago"></a>Long Long Ago</h2><p>小半年前，我曾写下越狱平台下的防QQ撤回的相关文章:<a href="http://www.jianshu.com/p/413b08331810" target="_blank" rel="external">逆向的尝试：让你的 QQ 不被撤回</a>。前几天，阅读了杨萧玉大神的 <a href="http://yulingtianxia.com/blog/2017/02/28/Make-WeChat-Great-Again/" target="_blank" rel="external">Make WeChat Great Again</a>。(⊙v⊙)嗯，突发奇想，好，那继续弄未越狱平台下的 QQ 的防撤回吧！</p>
+<h2 id="配置历险装备"><a href="#配置历险装备" class="headerlink" title="配置历险装备"></a>配置历险装备</h2><ol>
+<li><strong>iOSOpenDev</strong>    正常来说都会安装失败，这里给个修复的工具 <a href="https://github.com/everettjf/iOSOpenDevInstallFix" target="_blank" rel="external">iOSOpenDevInstallFix</a></li>
+<li><strong>yololib</strong>    dylib 注入工具</li>
+<li><strong>machOview</strong>    查看 dylib 是否注入成功</li>
+<li><strong>cycript</strong>    强大的调试工具</li>
+<li><strong>class-dump</strong>    砸出头文件</li>
+<li><strong>iOS App Signer</strong>    图形化重签名工具</li>
+</ol>
+<p><strong>本文不涉及具体安装过程，请自行 google!</strong></p>
+<h2 id="历险开始咯"><a href="#历险开始咯" class="headerlink" title="历险开始咯"></a>历险开始咯</h2><p>###<strong>1. 寻找目标 - 撤回函数</strong></p>
+<p>(⊙v⊙)嗯 … 会不会和我半年前猜的一样呢，经过验证，果然是一样的，具体请看<a href="http://www.jianshu.com/p/413b08331810" target="_blank" rel="external">逆向的尝试：让你的 QQ 不被撤回</a>。</p>
+<p>撤回函数分别是如下几个，这里只需干掉第一个就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">- (void)handleRecallNotify:(struct RecallModel *)arg1 isOnline:(_Bool)arg2;</div><div class="line">- (void)handleDiscussRecallNotify:(char *)arg1 bufferLen:(unsigned int)arg2 isOnline:(_Bool)arg3;</div><div class="line">- (void)handleGroupRecallNotify:(char *)arg1 bufferLen:(unsigned int)arg2 isOnline:(_Bool)arg3;</div><div class="line">- (void)handleC2CRecallNotify:(const void *)arg1 bufferLen:(int)arg2 subcmd:(int)arg3 isOnline:(_Bool)arg4;</div></pre></td></tr></table></figure>
+<p>###<strong>2. 编写 Tweak</strong></p>
+<p>这里我设置了一个 recallStatus，就是可以开关防撤回的功能。开的时候，就直接在函数中 <code>return</code>，不让它继续执行，就是这么简单粗暴。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">CHOptimizedMethod2(self, void, QQMessageRecallModule, handleRecallNotify, RecallModel *, arg1, isOnline, _Bool, arg2)&#123;</div><div class="line">    if ([XRKQQInfos sharedInstance].recallStatus) &#123;</div><div class="line">        return ;</div><div class="line">    &#125;</div><div class="line">    CHSuper2(QQMessageRecallModule, handleRecallNotify, arg1, isOnline, arg2);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###<strong>3. dylib 注入</strong></p>
+<p>将第二步得到的 <code>dylib</code> 库注入到从某助手下载的已经砸壳的 QQ 里面。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">./yololib QQ hook_qq.dylib</div></pre></td></tr></table></figure>
+<p>使用 <code>machOview</code> 来查看是否注入成功。截图中 <code>dylib</code> 的名称和上面不同，就把它看成 <code>hook_qq.dylib</code> 就可以。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-3-5/44536387-file_1488645788327_9fd.png" alt=""></p>
+<p>###<strong>4. 重签名</strong><br>由于 QQ 会进行签名验证，所以你要找一个通用匹配的证书来重签名。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-3-5/3298255-file_1488645673665_2e9.png" alt=""></p>
+<p>###<strong>5. 安装</strong><br>使用Xcode 自带的安装工具就可以。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-3-5/26289460-file_1488646057604_3968.png" alt="Xcode -&gt; Window -&gt; Devices"></p>
+<p>###<strong>6. 测试</strong><br><img src="http://ocnnxadky.bkt.clouddn.com/17-3-5/45464965-file_1488646657376_d8dd.png" alt="原谅自言自语的我"></p>
+<h2 id="历险再启程"><a href="#历险再启程" class="headerlink" title="历险再启程"></a>历险再启程</h2><p>弄个撤回好像有点单调，就问我同学有没有好的意见，他是这样说的。<br><img src="http://ocnnxadky.bkt.clouddn.com/17-3-5/39026589-file_1488646903950_17fe7.png" alt=""></p>
+<p>###<strong>1. 寻找目标 - QQ level 的设置</strong></p>
+<p>推荐阅读：<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks" target="_blank" rel="external">http://iphonedevwiki.net/index.php/Cycript_Tricks</a></p>
+<p>####<strong>1.1 注入 Cycript.framework 并安装到手机</strong><br>略</p>
+<p>####<strong>1.2 连上手机调试</strong></p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-3-5/61832473-file_1488646487621_acb2.png" alt=""></p>
+<p>观察这个页面，我最开始的思路是先找到这个 <code>level</code> 展示的 <code>view</code> 然后在它 <code>controller</code> 里面直接修改的。所以我就 <code>choose(UILabel)</code>，然后再 <code>iterm</code> 里面搜索 <code>Tsui YuenHong</code>，找到它的 <code>superview</code>，再根据这个 <code>superview</code>找到它的 <code>subviews</code>，里面肯定包括这个 <code>level</code> 展示的 <code>view</code>，就可以修改到等级了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ ./cycript -r 192.168.0.202:8888</div><div class="line">cy# choose(UILabel)</div><div class="line">...... 一堆东西输出</div><div class="line">cy# #0x117f3b9e0</div><div class="line">#&quot;&lt;UIButtonLabel: 0x117f3b9e0; frame = (0 6.5; 195.5 33.5); text = &apos;Tsui YuenHong&apos;; opaque = NO; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x113b291e0&gt;&gt;&quot;</div><div class="line">cy# #0x117f3b9e0.superview</div><div class="line">#&quot;&lt;UIButton: 0x113c69030; frame = (47 -3; 196 46); opaque = NO; layer = &lt;CALayer: 0x17022f420&gt;&gt;&quot;</div><div class="line">cy# #0x117f3b9e0.superview.superview</div><div class="line">#&quot;&lt;UIControl: 0x113bbc130; frame = (20 113.38; 283 85); layer = &lt;CALayer: 0x11277edb0&gt;&gt;&quot;</div><div class="line">cy# #0x117f3b9e0.superview.superview.superview</div><div class="line">#&quot;&lt;DrawerMyInfoView: 0x105d4abf0; baseClass = UIButton; frame = (0 0; 375 213.38); opaque = NO; layer = &lt;CALayer: 0x17022f440&gt;&gt;&quot;</div></pre></td></tr></table></figure>
+<p>找到了这个 <code>view</code> 的父容器是 <code>DrawerMyInfoView</code>，再找<code>DrawerMyInfoView</code> 的响应者就可以找到它对应的 <code>controller</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">cy# choose(DrawerMyInfoView)</div><div class="line">[#&quot;&lt;DrawerMyInfoView: 0x105d4abf0; baseClass = UIButton; frame = (0 0; 375 213.38); opaque = NO; layer = &lt;CALayer: 0x17022f440&gt;&gt;&quot;]</div><div class="line">cy# #0x105d4abf0.nextResponder</div><div class="line">#&quot;&lt;UIView: 0x10f4595b0; frame = (0 0; 375 667); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x175032400&gt;&gt;&quot;</div><div class="line">cy# #0x105d4abf0.nextResponder.nextResponder</div><div class="line">#&quot;&lt;DrawerContentsViewController: 0x106828a00&gt;&quot;</div></pre></td></tr></table></figure>
+<p>是你了，皮皮虾，<code>DrawerMyInfoView &amp; DrawerContentsViewController</code>。兴致勃勃地在 QQ 头文件里面找，发现并木有引用到和 level 相关的方法。</p>
+<p>好吧，那我就是搜索全部头文件来找到和 level 相关的方法，excuse me？发现并木有。</p>
+<p>####<strong>1.3 转战 hopper</strong><br>在 <code>hopper</code> 中偶然发现有个一个类叫 <code>QQAcountModel</code>，这个类有点特殊，在 <code>class-dump</code> 出来的头文件是看不到的，而且<strong>它的 <code>description</code> 方法是被重写了，这样在一定程度可以避免被逆向的可能</strong>。这里我选择 <code>hook</code> 进 <code>description</code><br>和 <code>level</code> 方法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">CHOptimizedMethod0(self, unsigned int, QQAccountsModel, level)&#123;</div><div class="line">    return [XRKQQInfos sharedInstance].qqLevel;</div><div class="line">&#125;</div><div class="line"></div><div class="line">CHOptimizedMethod0(self, NSString *, QQAccountsModel, description)&#123;</div><div class="line">    return [NSString stringWithFormat:@&quot;%p&quot;, self];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###<strong>2. 其余步骤和防撤回功能一样</strong><br>…</p>
+<h2 id="历险成果"><a href="#历险成果" class="headerlink" title="历险成果"></a>历险成果</h2><ol>
+<li>防撤回功能</li>
+<li>修改 Level（自娱自乐的功能）</li>
+</ol>
+<p>为了方便修改，我还在设置界面新增自定义选项（不过，本地化并木有做，每次重启都恢复默认项）。<br><img src="http://ocnnxadky.bkt.clouddn.com/17-3-5/67531501-file_1488646487770_d92e.png" alt=""></p>
+<p>如果你发现什么有趣的功能，我们可以一起探讨，Make QQ Fun Again！</p>
+<p>项目的 Github 地址：<a href="https://github.com/xurunkang/MakeQQFunAgain" target="_blank" rel="external">https://github.com/xurunkang/MakeQQFunAgain</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/ 2017/02/28/block-循环引用终结者/" data-toggle="tooltip" data-placement="top"
+                           title="block 循环引用终结者">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Long-Long-Ago"><span class="toc-text">Long Long Ago</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置历险装备"><span class="toc-text">配置历险装备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#历险开始咯"><span class="toc-text">历险开始咯</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#历险再启程"><span class="toc-text">历险再启程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#历险成果"><span class="toc-text">历险成果</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#逆向"
+                           title="逆向">逆向</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Tsui YuenHong 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.xurunkang.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-83299030-1';
+    var _gaDomain = 'xurunkang.cn';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-9-11/83615943.jpg">
+</body>
+
+</html>
