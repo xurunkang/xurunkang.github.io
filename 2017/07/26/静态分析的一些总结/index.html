@@ -175,46 +175,49 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h1 id="静态分析的一些总结"><a href="#静态分析的一些总结" class="headerlink" title="静态分析的一些总结"></a>静态分析的一些总结</h1><h4 id="xxx-is-a-garbage-value"><a href="#xxx-is-a-garbage-value" class="headerlink" title="xxx is a garbage value"></a>xxx is a garbage value</h4><pre><code>问题描述：这个错误一般是使用一个变量前可能没有赋值引起的。
-
-解决方案：每次声明变量都要赋初始值(nil or 0 or 适当的值)。
-</code></pre><h4 id="1st-argument-is-an-uninitalized"><a href="#1st-argument-is-an-uninitalized" class="headerlink" title="1st argument .. is an uninitalized"></a>1st argument .. is an uninitalized</h4><pre><code>问题描述：传参的参数可能是没被初始化。
-
-解决方案：传参要保证参数是被初始化过的。
-</code></pre><h4 id="nil-returned-from-a-method-that-is-expected-to-return-a-non-null-value"><a href="#nil-returned-from-a-method-that-is-expected-to-return-a-non-null-value" class="headerlink" title="nil returned from a method that is expected to return a non-null value"></a>nil returned from a method that is expected to return a non-null value</h4><pre><code>问题描述：这个错误出现主要集中于 UITableViewCell 的创建或 switch x 来选择性赋值一个变量，典型例子如下。
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">UITableViewCell *cell = nil;</div><div class="line">if(a)</div><div class="line">&#123;</div><div class="line">    cell = ...;</div><div class="line">&#125;</div><div class="line">else if (b)</div><div class="line">&#123;   </div><div class="line">    cell = ...;</div><div class="line">&#125;</div><div class="line">return cell;</div></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">NSString *string = nil;</div><div class="line">switch (x) &#123;</div><div class="line">case 1:</div><div class="line">    string = ...;</div><div class="line">    break;</div><div class="line"></div><div class="line">default:</div><div class="line">    break;</div><div class="line">&#125;</div><div class="line">return string;</div></pre></td></tr></table></figure>
-
-解决方案：例子1的解决方法建议加上 else 条件来赋一个默认的 [[UITableViewCell alloc] init]。而例子2则建议 string 赋空字符串，这样 switch 的条件为空或者 default 忘记填了也保证有值返回。
-</code></pre><h4 id="由-3-延伸的问题假设-switch-的是枚举类型"><a href="#由-3-延伸的问题假设-switch-的是枚举类型" class="headerlink" title="由 3 延伸的问题假设 switch 的是枚举类型"></a>由 3 延伸的问题假设 switch 的是枚举类型</h4><pre><code>问题描述：由于枚举类型设计没有默认值，导致枚举变量赋什么值都不合适。
-
-解决方案：枚举设置必须含有默认值。
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">typedef enum : NSUInteger &#123;</div><div class="line">    xxTypeDefault = 0,</div><div class="line">    xxTypeA,</div><div class="line">    xxTypeB,</div><div class="line">&#125; xxType;</div></pre></td></tr></table></figure>
-</code></pre><h4 id="xx-is-undefined-operation"><a href="#xx-is-undefined-operation" class="headerlink" title="xx is undefined operation"></a>xx is undefined operation</h4><pre><code>问题描述：左移位数超过被移动对象的字节长就会提示这个 warning。
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">int n = 31;</div><div class="line">int a = 1 &lt;&lt; (n + 1);</div><div class="line">int b = 1 &lt;&lt; 32;</div><div class="line">int c = 1 &lt;&lt; 31;</div><div class="line">c = c &lt;&lt; 1;</div><div class="line">debug print :</div><div class="line">1</div><div class="line">1606416072</div><div class="line">0</div><div class="line">release print:</div><div class="line">1606416072</div><div class="line">1606416072</div><div class="line">0</div></pre></td></tr></table></figure>
-
-出现上面结果的详细原因不作探讨，也不必探讨，因为对于不同编译器出现的结果是不同的，而且对于 undefined operation 的行为是不可预测的。
-
-解决方案：移位操作要对移动位数做判断，对于 int 来说就是大于等于0而且小于32。
-</code></pre><h4 id="API-安全性"><a href="#API-安全性" class="headerlink" title="API 安全性"></a>API 安全性</h4><pre><code>问题描述：rand() or strcpy()
-
-解决方案：rand()-&gt;arc4random(),strcpy()-&gt;strlcpy。
-
-arc4random是真正是伪随机数算法，不需要随机种子。
-
-strlcpy保证copy后的字符串后带有&apos;\0&apos;，而且不会出现 buffer overflow 导致的 crash。
-</code></pre><h4 id="value-store-to-xxx-is-never-read"><a href="#value-store-to-xxx-is-never-read" class="headerlink" title="value store to xxx is never read"></a>value store to xxx is never read</h4><pre><code>问题描述：变量被初始化后没有被使用。
-
-解决方案：1.删除该变量 2.使用关键字 &quot;__unused&quot; 修饰
-</code></pre><h4 id="Potential-leak-of-object"><a href="#Potential-leak-of-object" class="headerlink" title="Potential leak of object"></a>Potential leak of object</h4><pre><code>问题描述：潜在内存泄漏，当需要返回值类型是 CFXXX 或者是其他需要手动管理内存的变量的时候，因为需要在当前类之外释放该变量，Xcode 会提示你释放了不属于自己管理的对象。
-
-解决方案：在改返回 CFXXX 的函数后加上 CF_RETURNS_RETAINED 或 将该函数命名前加上 new。
-</code></pre><h4 id="查看变量内存分配在不在栈"><a href="#查看变量内存分配在不在栈" class="headerlink" title="查看变量内存分配在不在栈"></a>查看变量内存分配在不在栈</h4><ol>
-<li>lldb 下使用 register read，记录当前 sp 地址</li>
-<li>debug 窗口右键该变量选择 View Memory Of XXX 获取当前变量内存地址</li>
-<li>比对与 sp 地址的大小差距，比 sp 大在栈，比 sp 小不在栈(在堆或常量区…)</li>
+                <ol>
+<li><p>xxx is a garbage value</p>
+<p> 问题描述：这个错误一般是使用一个变量前可能没有赋值引起的。</p>
+<p> 解决方案：每次声明变量都要赋初始值(nil or 0 or 适当的值)。</p>
+</li>
+<li><p>1st argument .. is an uninitalized</p>
+<p> 问题描述：传参的参数可能是没被初始化。</p>
+<p> 解决方案：传参要保证参数是被初始化过的。</p>
+</li>
+<li><p>nil returned from a method that is expected to return a non-null value</p>
+<p> 问题描述：这个错误出现主要集中于 UITableViewCell 的创建或 switch x 来选择性赋值一个变量，典型例子如下。</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">UITableViewCell *cell = nil;</div><div class="line">if(a)</div><div class="line">&#123;</div><div class="line">    cell = ...;</div><div class="line">&#125;</div><div class="line">else if (b)</div><div class="line">&#123;   </div><div class="line">    cell = ...;</div><div class="line">&#125;</div><div class="line">return cell;</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">NSString *string = nil;</div><div class="line">switch (x) &#123;</div><div class="line">case 1:</div><div class="line">    string = ...;</div><div class="line">    break;</div><div class="line"></div><div class="line">default:</div><div class="line">    break;</div><div class="line">&#125;</div><div class="line">return string;</div></pre></td></tr></table></figure>
+<p> 解决方案：例子1的解决方法建议加上 else 条件来赋一个默认的 [[UITableViewCell alloc] init]。而例子2则建议 string 赋空字符串，这样 switch 的条件为空或者 default 忘记填了也保证有值返回。</p>
+</li>
+<li><p>由 3 延伸的问题假设 switch 的是枚举类型</p>
+<p> 问题描述：由于枚举类型设计没有默认值，导致枚举变量赋什么值都不合适。</p>
+<p> 解决方案：枚举设置必须含有默认值。</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">typedef enum : NSUInteger &#123;</div><div class="line">    xxTypeDefault = 0,</div><div class="line">    xxTypeA,</div><div class="line">    xxTypeB,</div><div class="line">&#125; xxType;</div></pre></td></tr></table></figure>
+</li>
+<li><p>xx is undefined operation</p>
+<p> 问题描述：左移位数超过被移动对象的字节长就会提示这个 warning。</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">int n = 31;</div><div class="line">int a = 1 &lt;&lt; (n + 1);</div><div class="line">int b = 1 &lt;&lt; 32;</div><div class="line">int c = 1 &lt;&lt; 31;</div><div class="line">c = c &lt;&lt; 1;</div><div class="line">debug print :</div><div class="line">1</div><div class="line">1606416072</div><div class="line">0</div><div class="line">release print:</div><div class="line">1606416072</div><div class="line">1606416072</div><div class="line">0</div></pre></td></tr></table></figure>
+<p> 出现上面结果的详细原因不作探讨，也不必探讨，因为对于不同编译器出现的结果是不同的，而且对于 undefined operation 的行为是不可预测的。</p>
+<p> 解决方案：移位操作要对移动位数做判断，对于 int 来说就是大于等于0而且小于32。</p>
+</li>
+<li><p>API 安全性</p>
+<p> 问题描述：rand() or strcpy()</p>
+<p> 解决方案：rand()-&gt;arc4random(),strcpy()-&gt;strlcpy。</p>
+<p> arc4random是真正是伪随机数算法，不需要随机种子。</p>
+<p> strlcpy保证copy后的字符串后带有’\0’，而且不会出现 buffer overflow 导致的 crash。</p>
+</li>
+<li><p>value store to xxx is never read</p>
+<p> 问题描述：变量被初始化后没有被使用。</p>
+<p> 解决方案：1.删除该变量 2.使用关键字 “__unused” 修饰</p>
+</li>
+<li><p>Potential leak of object</p>
+<p> 问题描述：潜在内存泄漏，当需要返回值类型是 CFXXX 或者是其他需要手动管理内存的变量的时候，因为需要在当前类之外释放该变量，Xcode 会提示你释放了不属于自己管理的对象。</p>
+<p> 解决方案：在改返回 CFXXX 的函数后加上 CF_RETURNS_RETAINED 或 将该函数命名前加上 new。</p>
+</li>
+<li><p>查看变量内存分配在不在栈</p>
+<p> lldb 下使用 register read，记录当前 sp 地址<br> debug 窗口右键该变量选择 View Memory Of XXX 获取当前变量内存地址<br> 比对与 sp 地址的大小差距，比 sp 大在栈，比 sp 小不在栈(在堆或常量区…)</p>
+</li>
 </ol>
 
                 <hr>
@@ -238,7 +241,7 @@ strlcpy保证copy后的字符串后带有&apos;\0&apos;，而且不会出现 buf
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#静态分析的一些总结"><span class="toc-text">静态分析的一些总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#xxx-is-a-garbage-value"><span class="toc-text">xxx is a garbage value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1st-argument-is-an-uninitalized"><span class="toc-text">1st argument .. is an uninitalized</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nil-returned-from-a-method-that-is-expected-to-return-a-non-null-value"><span class="toc-text">nil returned from a method that is expected to return a non-null value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#由-3-延伸的问题假设-switch-的是枚举类型"><span class="toc-text">由 3 延伸的问题假设 switch 的是枚举类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xx-is-undefined-operation"><span class="toc-text">xx is undefined operation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#API-安全性"><span class="toc-text">API 安全性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#value-store-to-xxx-is-never-read"><span class="toc-text">value store to xxx is never read</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Potential-leak-of-object"><span class="toc-text">Potential leak of object</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看变量内存分配在不在栈"><span class="toc-text">查看变量内存分配在不在栈</span></a></li></ol></li></ol></li></ol></li></ol>
+                    
                 </div>
             </div>
         </div>
