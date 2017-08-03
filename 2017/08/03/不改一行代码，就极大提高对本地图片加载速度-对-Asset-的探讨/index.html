@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        静态分析的一些总结｜Tsui YuenHong&#39;s Blog
+        不改一行代码，就极大提高对本地图片加载速度(对 Asset 的探讨)｜Tsui YuenHong&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.xurunkang.cn/2017/07/26/静态分析的一些总结/">
+    <link rel="canonical" href="http://www.xurunkang.cn/2017/08/03/不改一行代码，就极大提高对本地图片加载速度-对-Asset-的探讨/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -124,13 +124,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/17-7-26/75212381.jpg">
+<img class="wechat-title-img" src="http://ocnnxadky.bkt.clouddn.com/16-10-23/53776020.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://ocnnxadky.bkt.clouddn.com/17-7-26/75212381.jpg');
+        background-image: url('http://ocnnxadky.bkt.clouddn.com/16-10-23/53776020.jpg');
     }
 
     
@@ -141,21 +141,24 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>静态分析的一些总结</h1>
+                    <h1>不改一行代码，就极大提高对本地图片加载速度(对 Asset 的探讨)</h1>
                     
                     <span class="meta">
                          作者 Tsui YuenHong
                         <span>
-                          日期 2017-07-26
+                          日期 2017-08-03
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/Tags/#静态分析"
-                           title="静态分析">静态分析</a>
+                        <a class="tag" href="/Tags/#UIImage"
+                           title="UIImage">UIImage</a>
                         
-                        <a class="tag" href="/Tags/#技巧"
-                           title="技巧">技巧</a>
+                        <a class="tag" href="/Tags/#图片加载优化"
+                           title="图片加载优化">图片加载优化</a>
+                        
+                        <a class="tag" href="/Tags/#Asset Catelog"
+                           title="Asset Catelog">Asset Catelog</a>
                         
                     </div>
                 </div>
@@ -164,7 +167,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            静态分析的一些总结
+            不改一行代码，就极大提高对本地图片加载速度(对 Asset 的探讨)
         </span>
     </div>
 </header>
@@ -175,65 +178,48 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <ol>
-<li><p>xxx is a garbage value</p>
-<p> 问题描述：这个错误一般是使用一个变量前可能没有赋值引起的。</p>
-<p> 解决方案：每次声明变量都要赋初始值(nil or 0 or 适当的值)。</p>
-</li>
-<li><p>1st argument .. is an uninitalized</p>
-<p> 问题描述：传参的参数可能是没被初始化。</p>
-<p> 解决方案：传参要保证参数是被初始化过的。</p>
-</li>
-<li><p>nil returned from a method that is expected to return a non-null value</p>
-<p> 问题描述：这个错误出现主要集中于 UITableViewCell 的创建或 switch x 来选择性赋值一个变量，典型例子如下。</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">UITableViewCell *cell = nil;</div><div class="line">if(a)</div><div class="line">&#123;</div><div class="line">    cell = ...;</div><div class="line">&#125;</div><div class="line">else if (b)</div><div class="line">&#123;   </div><div class="line">    cell = ...;</div><div class="line">&#125;</div><div class="line">return cell;</div></pre></td></tr></table></figure>
- <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">NSString *string = nil;</div><div class="line">switch (x) &#123;</div><div class="line">case 1:</div><div class="line">    string = ...;</div><div class="line">    break;</div><div class="line"></div><div class="line">default:</div><div class="line">    break;</div><div class="line">&#125;</div><div class="line">return string;</div></pre></td></tr></table></figure>
-<p> 解决方案：例子1的解决方法建议加上 else 条件来赋一个默认的 [[UITableViewCell alloc] init]。而例子2则建议 string 赋空字符串，这样 switch 的条件为空或者 default 忘记填了也保证有值返回。</p>
-</li>
-<li><p>由 3 延伸的问题假设 switch 的是枚举类型</p>
-<p> 问题描述：由于枚举类型设计没有默认值，导致枚举变量赋什么值都不合适。</p>
-<p> 解决方案：枚举设置必须含有默认值。</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">typedef enum : NSUInteger &#123;</div><div class="line">    xxTypeDefault = 0,</div><div class="line">    xxTypeA,</div><div class="line">    xxTypeB,</div><div class="line">&#125; xxType;</div></pre></td></tr></table></figure>
-</li>
-<li><p>xx is undefined operation</p>
-<p> 问题描述：左移位数超过被移动对象的字节长就会提示这个 warning。</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">int n = 31;</div><div class="line">int a = 1 &lt;&lt; (n + 1);</div><div class="line">int b = 1 &lt;&lt; 32;</div><div class="line">int c = 1 &lt;&lt; 31;</div><div class="line">c = c &lt;&lt; 1;</div><div class="line">debug print :</div><div class="line">1</div><div class="line">1606416072</div><div class="line">0</div><div class="line">release print:</div><div class="line">1606416072</div><div class="line">1606416072</div><div class="line">0</div></pre></td></tr></table></figure>
-<p> 出现上面结果的详细原因不作探讨，也不必探讨，因为对于不同编译器出现的结果是不同的，而且对于 undefined operation 的行为是不可预测的。</p>
-<p> 解决方案：移位操作要对移动位数做判断，对于 int 来说就是大于等于0而且小于32。</p>
-</li>
-<li><p>API 安全性</p>
-<p> 问题描述：rand() or strcpy()</p>
-<p> 解决方案：rand()-&gt;arc4random(),strcpy()-&gt;strlcpy。</p>
-<p> arc4random是真正是伪随机数算法，不需要随机种子。</p>
-<p> strlcpy保证copy后的字符串后带有’\0’，而且不会出现 buffer overflow 导致的 crash。</p>
-</li>
-<li><p>value store to xxx is never read</p>
-<p> 问题描述：变量被初始化后没有被使用。</p>
-<p> 解决方案：1.删除该变量 2.使用关键字 “__unused” 修饰</p>
-</li>
-<li><p>Potential leak of object</p>
-<p> 问题描述：潜在内存泄漏，当需要返回值类型是 CFXXX 或者是其他需要手动管理内存的变量的时候，因为需要在当前类之外释放该变量，Xcode 会提示你释放了不属于自己管理的对象。</p>
-<p> 解决方案：在改返回 CFXXX 的函数后加上 CF_RETURNS_RETAINED 或 将该函数命名前加上 new。</p>
-</li>
-<li><p>查看变量内存分配在不在栈</p>
-<p> lldb 下使用 register read，记录当前 sp 地址<br> debug 窗口右键该变量选择 View Memory Of XXX 获取当前变量内存地址<br> 比对与 sp 地址的大小差距，比 sp 大在栈，比 sp 小不在栈(在堆或常量区…)</p>
-</li>
+                <h2 id="如果你是被标题吸引进来的"><a href="#如果你是被标题吸引进来的" class="headerlink" title="如果你是被标题吸引进来的"></a>如果你是被标题吸引进来的</h2><p>可以直接跳到最后看结论，接下来是对 Asset 为什么能加快对本地图片加载速度的探讨。</p>
+<h2 id="为什么探讨-Asset-这个东西"><a href="#为什么探讨-Asset-这个东西" class="headerlink" title="为什么探讨 Asset 这个东西"></a>为什么探讨 Asset 这个东西</h2><p>由于项目中在刚启动的瞬间使用 “-[UIImage imageNamed:]” 会很慢，所以就打算探讨 “-[UIImage imageNamed:]” 的实现，但是过程中发现了使用 Asset 对于图片的加载有极大的提升，就去探讨 Asset 了。</p>
+<h2 id="使用-Time-Profiler-探索实现"><a href="#使用-Time-Profiler-探索实现" class="headerlink" title="使用 Time Profiler 探索实现"></a>使用 Time Profiler 探索实现</h2><p>在使用 Time Profiler 调试 “-[UIImage imageNamed:]” 时候，发现它实际是调用 “-[UIImage imageNamed:inBundle:compatibleWithTraitCollection:]” 的，这时候萌发了一个想法是会不会根据指定 Bundle 的范围会加快加载图片的速度(理由是文件夹小了，减少索引次数)。</p>
+<p>实验后发现，果然如此。把图片分散到指定 bundle 后的速度大大提升了。</p>
+<p>这时候，有同事提示我使用 Asset 会不会加快，因为 WWDC 有提到过。所以我就去看了这集 Session，发现它是这样描述的。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-8-3/63913084.jpg" alt=""></p>
+<p>发现使用 Asset 后速度也大大提升。到此为止就产生了探讨 Asset 这个东西的需求了。</p>
+<h2 id="符号断点跟踪步骤"><a href="#符号断点跟踪步骤" class="headerlink" title="符号断点跟踪步骤"></a>符号断点跟踪步骤</h2><p>这里就用两个图片来简单描述 “-[UIImage imageNamed:]” 发生了什么？</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-8-3/39396745.jpg" alt="左图 Aseet/ 右图 Folder"></p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-8-3/50745501.jpg" alt="上图 Aseet/ 下图 Folder"></p>
+<p>使用 Asset 底层是使用一个叫 _UIAssetManager 的类去存取图片，而使用 Folder 则是走 imageIO。而且即使你是用 Folder 也会先判断 Asset 中没有这张图片才去走 imageIO 。</p>
+<p>这里就不展开说，具体可以根据图中的函数名下符号断点跟踪。(建议使用 chisel 来看各个类的成员变量)</p>
+<h2 id="缓存结构和索引的不同"><a href="#缓存结构和索引的不同" class="headerlink" title="缓存结构和索引的不同"></a>缓存结构和索引的不同</h2><p>使用 Asset 的缓存结构是: CUIStructuredThemeStore(<a href="https://github.com/billinghamj/iPhone6-iOS8-RuntimeHeaders/blob/master/PrivateFrameworks/CoreUI.framework/CUIStructuredThemeStore.h" target="_blank" rel="external">https://github.com/billinghamj/iPhone6-iOS8-RuntimeHeaders/blob/master/PrivateFrameworks/CoreUI.framework/CUIStructuredThemeStore.h</a>)</p>
+<p>// _cache<br>[<br>    Hash(A.png) -&gt; 缓存<br>    Hash(B.png) -&gt; 缓存<br>]</p>
+<p>使用 Folder 的缓存结构是: CUIMutableStructuredThemeStore(<a href="https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/PrivateFrameworks/CoreUI.framework/CUIMutableStructuredThemeStore.h" target="_blank" rel="external">https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/PrivateFrameworks/CoreUI.framework/CUIMutableStructuredThemeStore.h</a>)</p>
+<p>// nameIdentifierStore<br>[<br>    A.png -&gt; 1<br>    B.png -&gt; 2<br>]</p>
+<p>// memoryStore<br>[<br>    Hash<em>(1) -&gt; 缓存<br>    Hash</em>(2) -&gt; 缓存<br>]</p>
+<p>因为使用 Folder 去查找缓存，会先遍历 nameIdentifierStore 查找是否有缓存，没有就从 Folder 读取。在 Time Profiler 会有那么多的 “isEqualTo” 比较。</p>
+<p>而使用 Asset 则是直接根据图片名称来直接 “objectForKey:” 取出缓存。</p>
+<p>两者速度比较是: 前者 O(n)+O(1),后者 O(1)。<br>(至于为什么是O(n)? 因为我观察有O(n)这个行为，且 “isEqualTo” 的参数刚好字典 keys 和当前需要图片的名字。)</p>
+<p>而且看出来建立这个缓存的时候，使用 Asset 会快一点(只需要一个字典就可以)。</p>
+<h2 id="文件-IO-的不同"><a href="#文件-IO-的不同" class="headerlink" title="文件 IO 的不同"></a>文件 IO 的不同</h2><p>假设都是读取 5 张图片</p>
+<p>使用 Asset 的 IO 过程是:<br>open Asset -&gt; read Asset -&gt; close Asset</p>
+<p>使用 Folder 的过程是:<br>open 1.png -&gt; read 1.png -&gt; close 1.png<br>open 2.png -&gt; read 2.png -&gt; close 2.png<br>open 3.png -&gt; read 3.png -&gt; close 3.png<br>open 4.png -&gt; read 4.png -&gt; close 4.png<br>open 5.png -&gt; read 5.png -&gt; close 5.png</p>
+<p>可以看出这里 IO 次数少了(如果数量大的话，比较更加明显，Asset 一直是 1 次IO，而 Folder 会随读取文件的多少而递增)，而且在 IO Usage 可以看出读取 Asset 的速度极快。</p>
+<h2 id="asset-car-到底是什么"><a href="#asset-car-到底是什么" class="headerlink" title="asset.car 到底是什么"></a>asset.car 到底是什么</h2><p>asset.car 是编译后打包到项目里的文件。从目前的研究来看，asset.car 其实是将资源打包并建立索引的二进制文件，其头部包含资源在二进制对应的位置(类似 seekTable)。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>所以使用 Asset 的速度快的原因有以下几点：</p>
+<ol>
+<li>缓存格式较优，从而建立和查找缓存的速度也会加快。</li>
+<li>图片储存方式较优，查找图片位置更快，IO 也更快。</li>
 </ol>
+<p><strong>从 Folder 到 Asset，你需要做的只是转移图片资源(Xcode支持将Folder图片一键导入)，并且不需要改任何代码就能使图片加载速度大大加快。</strong></p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/ 2017/08/03/不改一行代码，就极大提高对本地图片加载速度-对-Asset-的探讨/" data-toggle="tooltip" data-placement="top"
-                           title="不改一行代码，就极大提高对本地图片加载速度(对 Asset 的探讨)">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/ 2017/04/10/iOS-实现弱引用数组的几种方法/" data-toggle="tooltip" data-placement="top"
-                           title="iOS 实现弱引用数组的几种方法">Next Post &rarr;</a>
+                        <a href="/ 2017/07/26/静态分析的一些总结/" data-toggle="tooltip" data-placement="top"
+                           title="静态分析的一些总结">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -246,7 +232,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如果你是被标题吸引进来的"><span class="toc-text">如果你是被标题吸引进来的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么探讨-Asset-这个东西"><span class="toc-text">为什么探讨 Asset 这个东西</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-Time-Profiler-探索实现"><span class="toc-text">使用 Time Profiler 探索实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#符号断点跟踪步骤"><span class="toc-text">符号断点跟踪步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存结构和索引的不同"><span class="toc-text">缓存结构和索引的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件-IO-的不同"><span class="toc-text">文件 IO 的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asset-car-到底是什么"><span class="toc-text">asset.car 到底是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -268,11 +254,14 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#静态分析"
-                           title="静态分析">静态分析</a>
+                        <a class="tag" href="/tags/#UIImage"
+                           title="UIImage">UIImage</a>
                         
-                        <a class="tag" href="/tags/#技巧"
-                           title="技巧">技巧</a>
+                        <a class="tag" href="/tags/#图片加载优化"
+                           title="图片加载优化">图片加载优化</a>
+                        
+                        <a class="tag" href="/tags/#Asset Catelog"
+                           title="Asset Catelog">Asset Catelog</a>
                         
                     </div>
                 </section>
