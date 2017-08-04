@@ -178,7 +178,10 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="如果你是被标题吸引进来的"><a href="#如果你是被标题吸引进来的" class="headerlink" title="如果你是被标题吸引进来的"></a>如果你是被标题吸引进来的</h2><p>可以直接跳到最后看结论，接下来是对 Asset 为什么能加快对本地图片加载速度的探讨。</p>
+                <hr>
+<h2 id="2017年8月4日更新"><a href="#2017年8月4日更新" class="headerlink" title="2017年8月4日更新"></a>2017年8月4日更新</h2><p>根据这个 Session <a href="https://developer.apple.com/videos/play/wwdc2016/719" target="_blank" rel="external">Optimizing I/O for Performance and Battery Life</a> 的描述，使用 Asset 还有对启动优化的好处。</p>
+<p><img src="http://ocnnxadky.bkt.clouddn.com/17-8-4/93132721.jpg" alt="Asset Catalogs"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://ocnnxadky.bkt.clouddn.com/17-8-4/83058893.jpg" alt="10%的速度提升"></h2><h2 id="如果你是被标题吸引进来的"><a href="#如果你是被标题吸引进来的" class="headerlink" title="如果你是被标题吸引进来的"></a>如果你是被标题吸引进来的</h2><p>可以直接跳到最后看结论，接下来是对 Asset 为什么能加快对本地图片加载速度的探讨。</p>
 <h2 id="为什么探讨-Asset-这个东西"><a href="#为什么探讨-Asset-这个东西" class="headerlink" title="为什么探讨 Asset 这个东西"></a>为什么探讨 Asset 这个东西</h2><p>由于项目中在刚启动的瞬间使用 “-[UIImage imageNamed:]” 会很慢，所以就打算探讨 “-[UIImage imageNamed:]” 的实现，但是过程中发现了使用 Asset 对于图片的加载有极大的提升，就去探讨 Asset 了。</p>
 <h2 id="使用-Time-Profiler-探索实现"><a href="#使用-Time-Profiler-探索实现" class="headerlink" title="使用 Time Profiler 探索实现"></a>使用 Time Profiler 探索实现</h2><p>在使用 Time Profiler 调试 “-[UIImage imageNamed:]” 时候，发现它实际是调用 “-[UIImage imageNamed:inBundle:compatibleWithTraitCollection:]” 的，这时候萌发了一个想法是会不会根据指定 Bundle 的范围会加快加载图片的速度(理由是文件夹小了，减少索引次数)。</p>
 <p>实验后发现，果然如此。把图片分散到指定 bundle 后的速度大大提升了。</p>
@@ -232,7 +235,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如果你是被标题吸引进来的"><span class="toc-text">如果你是被标题吸引进来的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么探讨-Asset-这个东西"><span class="toc-text">为什么探讨 Asset 这个东西</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-Time-Profiler-探索实现"><span class="toc-text">使用 Time Profiler 探索实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#符号断点跟踪步骤"><span class="toc-text">符号断点跟踪步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存结构和索引的不同"><span class="toc-text">缓存结构和索引的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件-IO-的不同"><span class="toc-text">文件 IO 的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asset-car-到底是什么"><span class="toc-text">asset.car 到底是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2017年8月4日更新"><span class="toc-text">2017年8月4日更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果你是被标题吸引进来的"><span class="toc-text">如果你是被标题吸引进来的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么探讨-Asset-这个东西"><span class="toc-text">为什么探讨 Asset 这个东西</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-Time-Profiler-探索实现"><span class="toc-text">使用 Time Profiler 探索实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#符号断点跟踪步骤"><span class="toc-text">符号断点跟踪步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存结构和索引的不同"><span class="toc-text">缓存结构和索引的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件-IO-的不同"><span class="toc-text">文件 IO 的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asset-car-到底是什么"><span class="toc-text">asset.car 到底是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
                 </div>
             </div>
         </div>
